@@ -3,7 +3,7 @@
 # Laradock Shell CLI
 #
 
-readonly LARADOCK_ROOT="$(cd "$(dirname "$BASH_SOURCE")/.."; pwd)"
+readonly LARADOCK_ROOT="$(cd "$(dirname "$(realpath "$BASH_SOURCE")")/.."; pwd)"
 readonly SCRIPTS_PATH="$LARADOCK_ROOT/scripts"
 
 source "$SCRIPTS_PATH/configs/variables.sh"
