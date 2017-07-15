@@ -41,6 +41,7 @@ declare -A all_modules=(
 
 declare -A command_map=(
   ['help']='display_help'
+  ['version']='display_version'
   ['environvars']='[environvars:template]'
   ['environvars:template']='output_environvars'
   ['environvars:evaluate']='output_processed_environvars'
