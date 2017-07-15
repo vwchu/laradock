@@ -27,8 +27,18 @@ echo_environ()
     fi
   fi
 
-  if [[ -e "${environ_path}/.env.example" ]]; then
-    cat "${environ_path}/.env.example" | $transform | prepend_empty_line
+  if [[ -f "${environ_path}/.env.example" ]]; then
+    environ_path="${environ_path}/.env.example"
+  elif [[ -f "${environ_path}.env.example" ]]; then
+    environ_path="${environ_path}.env.example"
+  fi
+
+  if [[ -f "${environ_path}" ]]; then
+    cat "${environ_path}" | $transform | prepend_empty_line
+  else
+    error "cannot find: ${environ_path}/.env.example"
+    error "cannot find: ${environ_path}.env.example"
+    error "cannot find: ${environ_path}"
   fi
 }
 
