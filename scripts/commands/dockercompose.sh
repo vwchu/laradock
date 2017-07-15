@@ -40,15 +40,7 @@ output_dockercompose_list_unfiltered()
 
 output_dockercompose_list()
 {
-  local -a unique_paths=()
-
-  for path in $(output_dockercompose_list_unfiltered "$@"); do
-    if ! $(contains "$path" "${unique_paths[@]}"); then
-      unique_paths+=("$path")
-    fi
-  done
-
-  echo -n "${unique_paths[@]}"
+  distinct $(output_dockercompose_list_unfiltered "$@")
 }
 
 output_dockercompose_args()

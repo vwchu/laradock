@@ -14,16 +14,14 @@ to_output_script()
        -e '$ a\EOF'
 }
 
-echo_environ()
+list_environ_unfiltered()
 {
-  local nodiv=$(test "$1" == '--nodiv'; ifelse true false)
-  local transform=$($nodiv; ifelse cat echo_divheader); if $nodiv; then shift; fi
   local environ_path="$1"
 
   if $(contains "$1" "${!all_modules[@]}"); then
     environ_path="$LARADOCK_ROOT/$1"
     if [[ -n "${all_modules[$1]}" ]]; then
-      foreach echo_environ $(split ':' "${all_modules[$1]}")
+      foreach list_environ_unfiltered $(split ':' "${all_modules[$1]}")
     fi
   fi
 
@@ -34,12 +32,27 @@ echo_environ()
   fi
 
   if [[ -f "${environ_path}" ]]; then
-    cat "${environ_path}" | $transform | prepend_empty_line
+    echo -n " ${environ_path}"
   else
     error "cannot find: ${environ_path}/.env.example"
     error "cannot find: ${environ_path}.env.example"
     error "cannot find: ${environ_path}"
   fi
+}
+
+list_environ()
+{
+  distinct $(foreach list_environ_unfiltered "$@")
+}
+
+echo_environ()
+{
+  local nodiv=$(test "$1" == '--nodiv'; ifelse true false)
+  local transform=$($nodiv; ifelse cat echo_divheader); if $nodiv; then shift; fi
+  
+  for environ_path in $(list_environ "$@"); do
+    cat "${environ_path}" | $transform | prepend_empty_line
+  done
 }
 
 output_environvars()
@@ -53,7 +66,7 @@ output_environvars()
     echo_header "General Setup"
     echo_environ --nodiv "$index"
     echo_header "Containers Customization"
-    foreach echo_environ "$@"
+    echo_environ "$@"
     echo_header "Miscellaneous"
     echo_environ --nodiv "$index/misc"
   ) > "$output"

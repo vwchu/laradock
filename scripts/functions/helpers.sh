@@ -43,6 +43,20 @@ split()
   echo "${elements[@]}"
 }
 
+distinct()
+{
+  local element
+  local -a uniques=()
+
+  for element in "$@"; do
+    if ! $(contains "$element" "${uniques[@]}"); then
+      uniques+=("$element")
+    fi
+  done
+
+  echo -n "${uniques[@]}"
+}
+
 evaluate()
 {
   source /dev/stdin
