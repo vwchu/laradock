@@ -40,7 +40,7 @@ source "$SCRIPTS_PATH/commands/helpinfo.sh"
 main()
 {
   process_arguments "$@"
-  execute_command
+  process_command
 }
 
 main "$@"
