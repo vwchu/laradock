@@ -31,6 +31,18 @@ contains()
   return 1
 }
 
+split()
+{
+  local -a elements
+
+  OIFS=$IFS
+  IFS=$1
+  elements=(${@:2})
+  IFS=$OIFS
+
+  echo "${elements[@]}"
+}
+
 evaluate()
 {
   source /dev/stdin

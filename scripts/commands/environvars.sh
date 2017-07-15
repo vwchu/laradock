@@ -18,9 +18,17 @@ echo_environ()
 {
   local nodiv=$(test "$1" == '--nodiv'; ifelse true false)
   local transform=$($nodiv; ifelse cat echo_divheader); if $nodiv; then shift; fi
-  local envpath="$(contains "$1" "${!all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
-  if [[ -e "${envpath}/.env.example" ]]; then
-    cat "${envpath}/.env.example" | $transform | prepend_empty_line
+  local environ_path="$1"
+
+  if $(contains "$1" "${!all_modules[@]}"); then
+    environ_path="$LARADOCK_ROOT/$1"
+    if [[ -n "${all_modules[$1]}" ]]; then
+      foreach echo_environ $(split ':' "${all_modules[$1]}")
+    fi
+  fi
+
+  if [[ -e "${environ_path}/.env.example" ]]; then
+    cat "${environ_path}/.env.example" | $transform | prepend_empty_line
   fi
 }
 

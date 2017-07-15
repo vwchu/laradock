@@ -2,9 +2,17 @@
 
 compose_option()
 {
-  local dcpath="$(contains "$1" "${!all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
-  if [[ -e "${dcpath}/docker-compose.yml" ]]; then
-    echo -n " -f ${dcpath}/docker-compose.yml"
+  local compose_path="$1"
+
+  if $(contains "$1" "${!all_modules[@]}"); then
+    compose_path="$LARADOCK_ROOT/$1"
+    if [[ -n "${all_modules[$1]}" ]]; then
+      foreach compose_option $(split ':' "${all_modules[$1]}")
+    fi
+  fi
+
+  if [[ -e "${compose_path}/docker-compose.yml" ]]; then
+    echo -n " -f ${compose_path}/docker-compose.yml"
   fi
 }
 
