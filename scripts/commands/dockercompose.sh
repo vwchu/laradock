@@ -31,7 +31,7 @@ compose_paths()
   fi
 }
 
-output_dockercompose_list_unfiltered()
+output_dockercompose_list_impl()
 {
   compose_paths "$LARADOCK_ROOT"
   [[ $# -eq 0 || ${options[a]} ]] && foreach compose_paths "${!all_modules[@]}"
@@ -40,7 +40,7 @@ output_dockercompose_list_unfiltered()
 
 output_dockercompose_list()
 {
-  distinct $(output_dockercompose_list_unfiltered "$@")
+  distinct $(output_dockercompose_list_impl "$@")
 }
 
 output_dockercompose_args()

@@ -14,14 +14,14 @@ to_output_script()
        -e '$ a\EOF'
 }
 
-list_environ_unfiltered()
+list_environ_impl()
 {
   local environ_path="$1"
 
   if $(contains "$1" "${!all_modules[@]}"); then
     environ_path="$LARADOCK_ROOT/$1"
     if [[ -n "${all_modules[$1]}" ]]; then
-      foreach list_environ_unfiltered $(split ':' "${all_modules[$1]}")
+      foreach list_environ_impl $(split ':' "${all_modules[$1]}")
     fi
   fi
 
@@ -42,7 +42,7 @@ list_environ_unfiltered()
 
 list_environ()
 {
-  distinct $(foreach list_environ_unfiltered "$@")
+  distinct $(foreach list_environ_impl "$@")
 }
 
 echo_environ()
