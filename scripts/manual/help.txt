@@ -3,6 +3,7 @@ scripts/laradock.sh <command> [options] <args...>
 COMMANDS:
 
   help                        Display this help document
+  version                     Display Laradock version information
 
   environvars                 Alias for environvars:template
   environvars:template        Generates a environment file from the templates
@@ -13,6 +14,12 @@ COMMANDS:
   dockercompose               Alias for dockercompose:args
   dockercompose:args          Generates the --file arguments for docker-compose
   dockercompose:list          Generates a list of docker-compose.yml file paths
+
+OPTIONS (For all commands)
+
+  -h, --help                  Display this help document
+  -v, --version               Display Laradock version information
+  -s, --silent                Do not output error messages
 
 ENVIRONVARS (For all subcommands)
 
