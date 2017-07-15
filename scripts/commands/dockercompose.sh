@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_compose_option()
+echo_compose_option()
 {
   echo -n " -f $1"
 }
@@ -31,21 +31,27 @@ compose_paths()
   fi
 }
 
-compose_options()
-{
-  foreach _compose_option $(compose_paths "$1")
-}
-
-output_dockercompose_list()
+output_dockercompose_list_unfiltered()
 {
   compose_paths "$LARADOCK_ROOT"
   [[ $# -eq 0 || ${options[a]} ]] && foreach compose_paths "${!all_modules[@]}"
   foreach compose_paths "$@"
 }
 
+output_dockercompose_list()
+{
+  local -a unique_paths=()
+
+  for path in $(output_dockercompose_list_unfiltered "$@"); do
+    if ! $(contains "$path" "${unique_paths[@]}"); then
+      unique_paths+=("$path")
+    fi
+  done
+
+  echo -n "${unique_paths[@]}"
+}
+
 output_dockercompose_args()
 {
-  compose_options "$LARADOCK_ROOT"
-  [[ $# -eq 0 || ${options[a]} ]] && foreach compose_options "${!all_modules[@]}"
-  foreach compose_options "$@"
+  foreach echo_compose_option $(output_dockercompose_list "$@")
 }
