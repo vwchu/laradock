@@ -12,7 +12,7 @@ process_arguments()
   done
 }
 
-_replace_option_aliases()
+replace_option_aliases_impl()
 {
   local -A aliases=( )
   local -a shorten=( )
@@ -32,7 +32,7 @@ _replace_option_aliases()
   arguments=("${shorten[@]}")
 }
 
-_process_command_arguments()
+process_command_arguments_impl()
 {
   while getopts "${opts}" opt; do
     case $opt in
@@ -52,7 +52,7 @@ replace_option_aliases()
   else
     export opt_aliases="${option_aliases['*']}"
   fi
-  _replace_option_aliases "$@"
+  replace_option_aliases_impl "$@"
 }
 
 process_command_arguments()
@@ -62,5 +62,5 @@ process_command_arguments()
   else
     export opts="${command_opts['*']}"
   fi
-  _process_command_arguments "$@"
+  process_command_arguments_impl "$@"
 }
