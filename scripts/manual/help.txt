@@ -12,6 +12,7 @@ COMMANDS:
 
   dockercompose               Alias for dockercompose:args
   dockercompose:args          Generates the --file arguments for docker-compose
+  dockercompose:list          Generates a list of docker-compose.yml file paths
 
 ENVIRONVARS (For all subcommands)
 
@@ -20,7 +21,7 @@ ENVIRONVARS (For all subcommands)
 
 ENVIRONVARS:TEMPLATE
 
-  <template...>               Built-in or custom templates to include.
+  [template...]               Built-in or custom templates to include.
                               If no template is provided, include all built-in templates.
                               If a template is include, only output that template.
                               Built-in templates are specified based on their name, i.e.:
@@ -39,9 +40,7 @@ ENVIRONVARS:EVALUATE
                               as the template. Only variables in the template will be
                               outputted. Variables not in the template are excluded.
 
-DOCKERCOMPOSE
-
-DOCKERCOMPOSE:ARGS
+DOCKERCOMPOSE (For all subcommands)
 
   -a, --all                   Include all built-in `docker-compose.yml` files (default)
 

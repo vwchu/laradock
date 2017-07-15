@@ -46,12 +46,14 @@ declare -A command_map=(
   ['environvars:evaluate']='output_processed_environvars'
   ['dockercompose']='[dockercompose:args]'
   ['dockercompose:args']='output_dockercompose_args'
+  ['dockercompose:list']='output_dockercompose_list'
 )
 
 declare -A command_opts=(
   ['environvars:template']=':o:a'
   ['environvars:evaluate']=':o:t:a'
   ['dockercompose:args']=':a'
+  ['dockercompose:list']=':a'
 )
 
 # A space delimited list of pairs of aliases.
@@ -61,6 +63,7 @@ declare -A option_aliases=(
   ['environvars:template']="--output:-o --all:-a"
   ['environvars:evaluate']="--output:-o --all:-a --template:-t"
   ['dockercompose:args']='--all:-a'
+  ['dockercompose:list']='--all:-a'
 )
 
 # Number of columns (width) of the section dividers/headers

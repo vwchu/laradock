@@ -36,6 +36,13 @@ compose_options()
   foreach _compose_option $(compose_paths "$1")
 }
 
+output_dockercompose_list()
+{
+  compose_paths "$LARADOCK_ROOT"
+  [[ $# -eq 0 || ${options[a]} ]] && foreach compose_paths "${!all_modules[@]}"
+  foreach compose_paths "$@"
+}
+
 output_dockercompose_args()
 {
   compose_options "$LARADOCK_ROOT"
