@@ -31,6 +31,7 @@ source "$SCRIPTS_PATH/functions/executor.sh"
 
 source "$SCRIPTS_PATH/commands/environvars.sh"
 source "$SCRIPTS_PATH/commands/dockercompose.sh"
+source "$SCRIPTS_PATH/commands/helpinfo.sh"
 
 #-----------------------------------------------------------
 # Main

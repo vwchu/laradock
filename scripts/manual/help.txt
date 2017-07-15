@@ -1,0 +1,100 @@
+scripts/laradock.sh <command> [options] <args...>
+
+COMMANDS:
+
+  help                        Display this help document
+
+  environvars                 Alias for environvars:template
+  environvars:template        Generates a environment file from the templates
+  environvars:evaluate        Evaluates the template against a given set of user-defined
+                              variable values. Substitutes the default values with the
+                              values provided by the user.
+
+  dockercompose               Alias for dockercompose:args
+  dockercompose:args          Generates the --file arguments for docker-compose
+
+ENVIRONVARS (For all subcommands)
+
+  -a, --all                   Include all built-in templates in the output (default)
+  -o, --output <output>       File to write generated environment file to (default: stdout)
+
+ENVIRONVARS:TEMPLATE
+
+  <template...>               Built-in or custom templates to include.
+                              If no template is provided, include all built-in templates.
+                              If a template is include, only output that template.
+                              Built-in templates are specified based on their name, i.e.:
+                              `nginx`, `apache2`, `php-fpm`, etc. 
+                              Custom templates are specified based on their directory
+                              path location: `<custom>/.env.example`.
+
+ENVIRONVARS:EVALUATE
+
+  -t, --template <template>   Input template to use as output. (default: stdin)
+                              '-' aliases for stdin.
+
+  [overrides...]              List of files containing the user-defined values
+                              to override or substitute the default values in the
+                              templates. If none is provided, the output is the same
+                              as the template. Only variables in the template will be
+                              outputted. Variables not in the template are excluded.
+
+DOCKERCOMPOSE
+
+DOCKERCOMPOSE:ARGS
+
+  -a, --all                   Include all built-in `docker-compose.yml` files (default)
+
+  [compose-file...]           List of `docker-compose.yml` files to include in
+                              the output, built-in and custom. If no `docker-compose.yml`
+                              files are specified, includes all built-in files.
+                              If a compose file is specified, only output that file.
+                              Built-in compose file are specified based on their name, i.e.:
+                              `nginx`, `apache2`, `php-fpm`, etc. 
+                              Custom templates are specified based on their directory
+                              path location: `<custom>/docker-compose.yml`.
+
+EXAMPLES:
+
+  Output all built-in templates to stdout:
+
+      scripts/laradock.sh environvars:template
+
+  Output all built-in templates to `.env`:
+
+      scripts/laradock.sh environvars:template --output .env
+
+  Output only built-in templates `workspace`, `nginx` or `php-fpm` to `.env`:
+
+      scripts/laradock.sh environvars:template --output .env workspace nginx php-fpm
+
+  For `../.env.example`:
+
+      APPLICATION=../src
+      DATA_SAVE_PATH=../.data
+
+  Output all built-in templates to `../.env` with ../.env.example variables substituted:
+
+      scripts/laradock.sh environvars:evaluate --output ../.env ../.env.example
+
+  Output only built-in templates `workspace`, `nginx` or `php-fpm` to `../.env` with
+  ../.env.example variables substituted:
+
+      scripts/laradock.sh environvars:template workspace nginx php-fpm \
+        | scripts/laradock.sh environvars:evaluate --template /dev/stdin --output ../.env ../.env.example
+
+  Output only built-in templates `workspace`, `nginx` or `php-fpm` to `~/.laradock/.env.example`.
+  Then, create `.env` with `~/.laradock/.env.example` template with `../.env.example` variables substituted:
+
+      scripts/laradock.sh environvars:template --output ~/.laradock/.env.example workspace nginx php-fpm
+      scripts/laradock.sh environvars:evaluate --template ~/.laradock/.env.example --output ../.env ../.env.example
+
+  Run docker-compose on all built-in containers:
+
+      docker-compose $(scripts/laradock.sh dockercompose:args) ...
+
+  Run docker-compose on built-in containers `workspace`, `nginx`, `php-fpm`:
+
+      docker-compose $(scripts/laradock.sh dockercompose:args workspace nginx php-fpm) ...
+
+      -- Note: must be explicit about `workspace` and `php-fpm`

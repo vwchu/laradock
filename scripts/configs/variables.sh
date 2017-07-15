@@ -40,6 +40,7 @@ declare -a all_modules=(
 )
 
 declare -A command_map=(
+  ['help']='display_help'
   ['environvars']='[environvars:template]'
   ['environvars:template']='output_environvars'
   ['environvars:evaluate']='output_processed_environvars'
