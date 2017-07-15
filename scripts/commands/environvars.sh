@@ -18,7 +18,7 @@ echo_environ()
 {
   local nodiv=$(test "$1" == '--nodiv'; ifelse true false)
   local transform=$($nodiv; ifelse cat echo_divheader); if $nodiv; then shift; fi
-  local envpath="$(contains "$1" "${all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
+  local envpath="$(contains "$1" "${!all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
   if [[ -e "${envpath}/.env.example" ]]; then
     cat "${envpath}/.env.example" | $transform | prepend_empty_line
   fi
@@ -26,7 +26,7 @@ echo_environ()
 
 output_environvars()
 {
-  [[ $# -eq 0 || ${options[a]} ]] && set "${all_modules[@]}" "$@"
+  [[ $# -eq 0 || ${options[a]} ]] && set "${!all_modules[@]}" "$@"
 
   local index="$LARADOCK_ROOT"
   local output="${options[o]:-/dev/stdout}"
