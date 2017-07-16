@@ -1,55 +1,33 @@
 #!/bin/bash
 
-declare -A all_modules=(
-  ['workspace']=''
-  ['php-fpm']='workspace'
-  ['php-worker']='workspace'
-  ['nginx']='php-fpm'
-  ['blackfire']='php-fpm'
-  ['apache2']='php-fpm'
-  ['hhvm']='workspace'
-  ['minio']=''
-  ['mysql']=''
-  ['percona']=''
-  ['mssql']=''
-  ['mariadb']=''
-  ['postgres']=''
-  ['postgres-postgis']='postgres'
-  ['neo4j']=''
-  ['mongo']=''
-  ['rethinkdb']=''
-  ['redis']=''
-  ['aerospike']=''
-  ['memcached']='php-fpm'
-  ['beanstalkd']='php-fpm'
-  ['rabbitmq']='php-fpm'
-  ['beanstalkd-console']='beanstalkd'
-  ['caddy']='php-fpm'
-  ['phpmyadmin']=''
-  ['adminer']='php-fpm'
-  ['pgadmin']='postgres'
-  ['elasticsearch']='php-fpm'
-  ['kibana']='elasticsearch'
-  ['certbot']=''
-  ['mailhog']=''
-  ['selenium']=''
-  ['varnish']=''
-  ['haproxy']='varnish'
-  ['jenkins']=''
-  ['laravel-echo-server']='redis'
-)
+# Mapping between all of the registered modules
+# and its installation path in the filesystem.
+# Loaded from `modules/*`.
+declare -A module_path=( )
 
-declare -A command_map=(
-)
+# Mapping between all of the registered modules
+# and its docker-compose dependencies (comma-separated list).
+# Loaded from `modules/*`.
+declare -A module_docker_dependencies=( )
 
-declare -A command_opts=(
-)
+# Mapping between all of the registered modules
+# and its env dependencies (comma-separated list).
+# Loaded from `modules/*`.
+declare -A module_env_dependencies=( )
+
+# Mapping between a command and a function or
+# alias for another command. Aliases have a
+# square-bracketed value. (i.e.: "[cmd]")
+declare -A command_map=( )
+
+# Mapping between a command and its getopts
+# option definition string value.
+declare -A command_opts=( )
 
 # A space delimited list of pairs of aliases.
 # Each pair consists of the long form and its
 # corresponding shorthand, separated by a colon.
-declare -A option_aliases=(
-)
+declare -A option_aliases=( )
 
 # Number of columns (width) of the section dividers/headers
 # to print into the generated environment variable
