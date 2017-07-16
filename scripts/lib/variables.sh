@@ -45,3 +45,29 @@ COMMAND=
 # to print into the generated environment variable
 # configuration file.
 readonly DIV_COLUMNS=60
+
+# Verbosity output level (0 through 5) [silent => verbose]
+VERBOSE=${VERBOSE:-4}
+
+# Output file for log entries to be written to
+LOG_FILE="${LOG_FILE:-}"
+
+# LIst of accepted log levels in the system
+readonly -a LOG_LEVELS=(
+  'silent'
+  'error'
+  'warn'
+  'success'
+  'info'
+  'verb'
+)
+
+# Mapping between verbose level and 
+# output text colours to display to users.
+readonly -A LOG_COLOURS=(
+  ['error']='red'
+  ['warn']='yellow'
+  ['success']='green'
+  ['info']='blue'
+  ['verb']='purple'
+)

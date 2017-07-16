@@ -1,5 +1,10 @@
 #!/bin/bash
 
+remove_nonprintable()
+{
+  tr -cd '\11\12\15\40-\176'
+}
+
 prepend_empty_line()
 {
   sed -e '1 i\ ' | sed -e '1 s/ //'
@@ -9,6 +14,8 @@ append_empty_line()
 {
   sed -e '$ a\ ' | sed -e '$ s/ //'
 }
+
+### Env file output mechanisms
 
 echo_divider()
 {
@@ -27,27 +34,38 @@ echo_header()
   echo '#' | echo_divider 30
 }
 
+### Coloured or styled output
+
 set_colour()
 {
-  case $1 in
-    black)        echo -ne '\033[0;30m';;
-    dgray)        echo -ne '\033[1;30m';;
-    red)          echo -ne '\033[0;31m';;
-    lred)         echo -ne '\033[1;31m';;
-    green)        echo -ne '\033[0;32m';;
-    lgreen)       echo -ne '\033[1;32m';;
-    brown|orange) echo -ne '\033[0;33m';;
-    yellow)       echo -ne '\033[1;33m';;
-    blue)         echo -ne '\033[0;34m';;
-    lblue)        echo -ne '\033[1;34m';;
-    purple)       echo -ne '\033[0;35m';;
-    lpurple)      echo -ne '\033[1;35m';;
-    cyan)         echo -ne '\033[0;36m';;
-    lcyan)        echo -ne '\033[1;36m';;
-    lgray)        echo -ne '\033[0;37m';;
-    white)        echo -ne '\033[1;37m';;
-    none)         echo -ne '\033[0m';;
-  esac
+  if [[ ! $NOTTY ]]; then
+    case $1 in
+      black)        echo -ne '\033[0;30m';;
+      dgray)        echo -ne '\033[1;30m';;
+      red)          echo -ne '\033[0;31m';;
+      lred)         echo -ne '\033[1;31m';;
+      green)        echo -ne '\033[0;32m';;
+      lgreen)       echo -ne '\033[1;32m';;
+      brown|orange) echo -ne '\033[0;33m';;
+      yellow)       echo -ne '\033[1;33m';;
+      blue)         echo -ne '\033[0;34m';;
+      lblue)        echo -ne '\033[1;34m';;
+      purple)       echo -ne '\033[0;35m';;
+      lpurple)      echo -ne '\033[1;35m';;
+      cyan)         echo -ne '\033[0;36m';;
+      lcyan)        echo -ne '\033[1;36m';;
+      lgray)        echo -ne '\033[0;37m';;
+      white)        echo -ne '\033[1;37m';;
+      none)         echo -ne '\033[0m';;
+    esac
+  fi
+}
+
+set_cursor()
+{
+  if [[ ! $NOTTY ]]; then
+    tput "$@"
+  fi
 }
 
 echo_coloured()
@@ -62,17 +80,16 @@ echo_coloured()
   fi
 }
 
-log()
+echo_styled()
 {
-  local -A colour=(
-    ['silly']='purple'
-    ['info']='blue'
-    ['success']='green'
-    ['warn']='yellow'
-    ['error']='red'
-  )
-  echo_coloured ${colour[$1]} "$(echo "[$1 $(date -uIseconds)]: " | awk '{print toupper($0)}')"
-  echo "${@:2}"
+  if [[ "$1" == '-x' ]]; then 
+    echo -n "$(set_cursor $2)"; ${@:3}
+    echo -n "$(set_cursor sgr0)"
+  else
+    echo -n "$(set_cursor $1)"
+    echo -n "${@:2}"
+    echo -n "$(set_cursor sgr0)"
+  fi
 }
 
 print_table()
@@ -118,7 +135,42 @@ print_table()
   update_fields "${titles[@]}"
   $iter update_fields
   formatter="$(make_formatter)"
-  echo_coloured -x purple print_record "${titles[@]}" | prepend_empty_line
+
+  set_cursor clear
+  echo_styled -x bold echo_coloured -x purple print_record "${titles[@]}" | prepend_empty_line
   echo_coloured -x purple print_record $(foreach table_header "${fields[@]}")
   $iter print_record | append_empty_line
+}
+
+### Logging and error handling
+
+ifverb()
+{
+  if [[ $VERBOSE -ge "$(indexof $1 ${LOG_LEVELS[@]})" ]]; then
+    if [[ -n "$LOG_FILE" ]]; then
+      NOTTY=true ${@:2} | remove_nonprintable >> "$LOG_FILE"
+    else
+      ${@:2}
+    fi
+  fi
+}
+
+log()
+{
+  if [[ $VERBOSE -ge "$(indexof $1 ${LOG_LEVELS[@]})" ]]; then
+    local header="$(echo "[$1 $(date -uIseconds)]: " | awk '{print toupper($0)}')"
+    if [[ -n "$LOG_FILE" ]]; then
+      echo -n "${header}" >> "$LOG_FILE"
+      echo "${@:2}" >> "$LOG_FILE"
+    else
+      set_cursor el
+      echo_coloured ${LOG_COLOURS[$1]} "${header}"
+      echo "${@:2}"
+    fi
+  fi
+}
+
+error()
+{
+  log error "$@" 1>&2
 }

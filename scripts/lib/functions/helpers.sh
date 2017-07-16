@@ -1,10 +1,5 @@
 #!/bin/bash
 
-error()
-{
-  echo "ERR: $@" 1>&2
-}
-
 ifelse()
 {
   if [[ 0 -eq $? ]]; then
@@ -29,6 +24,19 @@ contains()
     [[ "$element" == "$1" ]] && return 0
   done
   return 1
+}
+
+indexof()
+{
+  local i
+  local -a array=("${@:2}")
+  for ((i = 0; i < "${#array[@]}"; i++)); do
+    if [[ "${array[$i]}" == "$1" ]]; then
+      echo $i
+      return
+    fi
+  done
+  echo -1
 }
 
 split()
