@@ -8,14 +8,6 @@ readonly SCRIPTS_PATH="$LARADOCK_ROOT/scripts"
 
 source "$SCRIPTS_PATH/configs/variables.sh"
 
-# Arrays of user-defined input arguments and
-# specified options and corresponding values
-declare -a arguments=( )
-declare -A options=( )
-
-# User specified command to execute
-COMMAND=
-
 #-----------------------------------------------------------
 # Include Functions
 #-----------------------------------------------------------

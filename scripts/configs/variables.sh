@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Array of all of the registered modules
+# in the system. Loaded from `modules/*`.
+declare -a modules=( )
+
 # Mapping between all of the registered modules
 # and its installation path in the filesystem.
 # Loaded from `modules/*`.
@@ -28,6 +32,14 @@ declare -A command_opts=( )
 # Each pair consists of the long form and its
 # corresponding shorthand, separated by a colon.
 declare -A option_aliases=( )
+
+# Arrays of user-defined input arguments and
+# specified options and corresponding values
+declare -a arguments=( )
+declare -A options=( )
+
+# User specified command to execute
+COMMAND=
 
 # Number of columns (width) of the section dividers/headers
 # to print into the generated environment variable
