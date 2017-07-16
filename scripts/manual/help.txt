@@ -33,21 +33,33 @@ ENVIRONVARS:TEMPLATE
                               If a template is include, only output that template.
                               Built-in templates are specified based on their name, i.e.:
                               `nginx`, `apache2`, `php-fpm`, etc. 
-                              Custom templates are specified based on their directory
-                              path location: `<custom>/.env.example`.
+                              Custom templates are specified based on their file path:
+                              `<custom>/.env.example` or `<custom>.env.example` or `<custom>`.
 
 ENVIRONVARS:EVALUATE
 
-  -t, --template <template>   Input template to use as output. (default: stdin)
-                              '-' aliases for stdin.
+  -t, --template <template>   Input template(s) to use as output. If no template provided,
+                              includes all built-in templates. There are two specify a template:
+                               1. A file path: outputs the content of that file, and
+                               2. A colon ':' separated list of templates, equivalent to
+                                  the template arguments in the `environvars:template` command.
+                                  If there is only item in the list, prefix the item
+                                  with a colon ':' will ensure that it is interpreted as a
+                                  module.
+
   -x, --include-extras        Include any variables in the overrides that is not
                               included in the template output. (default: false)
 
   [overrides...]              List of files containing the user-defined values
                               to override or substitute the default values in the
-                              templates. If none is provided, the output is the same
-                              as the template. Only variables in the template will be
-                              outputted. Variables not in the template are excluded.
+                              templates. If none is provided, will try to use
+                              `./.laradock`, `./.env.example` or `./.env` in the
+                              current working directory in that order. If no overrides
+                              are provided and none of the available files are found,
+                              the output will be the same as the template. Only variables
+                              defined within the template will be outputted. Variables not
+                              in the template are excluded, unless `--include-extras` is
+                              enabled.
 
 DOCKERCOMPOSE (For all subcommands)
 
@@ -58,9 +70,9 @@ DOCKERCOMPOSE (For all subcommands)
                               files are specified, includes all built-in files.
                               If a compose file is specified, only output that file.
                               Built-in compose file are specified based on their name, i.e.:
-                              `nginx`, `apache2`, `php-fpm`, etc. 
-                              Custom templates are specified based on their directory
-                              path location: `<custom>/docker-compose.yml`.
+                              `nginx`, `apache2`, `php-fpm`, etc. Custom docker-compose.yml are
+                              specified based on their file path: `<custom>/docker-compose.yml`
+                              or `<custom>.yml` or `<custom>`.
 
 EXAMPLES:
 
@@ -88,8 +100,7 @@ EXAMPLES:
   Output only built-in templates `workspace`, `nginx` or `php-fpm` to `../.env` with
   ../.env.example variables substituted:
 
-      scripts/laradock.sh environvars:template workspace nginx php-fpm \
-        | scripts/laradock.sh environvars:evaluate --template /dev/stdin --output ../.env ../.env.example
+      scripts/laradock.sh environvars:evaluate --template workspace:nginx:php-fpm --output ../.env ../.env.example
 
   Output only built-in templates `workspace`, `nginx` or `php-fpm` to `~/.laradock/.env.example`.
   Then, create `.env` with `~/.laradock/.env.example` template with `../.env.example` variables substituted:
@@ -104,5 +115,3 @@ EXAMPLES:
   Run docker-compose on built-in containers `workspace`, `nginx`, `php-fpm`:
 
       docker-compose $(scripts/laradock.sh dockercompose:args workspace nginx php-fpm) ...
-
-      -- Note: must be explicit about `workspace` and `php-fpm`

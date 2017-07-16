@@ -91,12 +91,27 @@ output_processed_environvars()
 {
   local output="${options[o]:-/dev/stdout}"
   local -A environvars=( )
-  local content="$( ([[ -n "${options[t]}" ]] && [[ -e "${options[t]}" || "${options[t]}" == '-' ]] && cat "${options[t]}") || output_environvars)"
-  local templatevars="$(echo "$content" | to_load_script environvars | (evaluate; echo "${!environvars[@]}"))"
-  local customs="$([[ $# -gt 0 ]] && cat "$@")"
+  local content
 
-  (echo "$content"; echo "$customs") | to_load_script environvars | (evaluate; {
-    export templatevars="${templatevars}"
+  if [[ -z "${options[t]}" ]]; then
+    content="$(output_environvars)"
+  elif [[ -f "${options[t]}" || -p "${options[t]}" ]]; then
+    content="$(cat "${options[t]}")"
+  elif [[ "${options[t]}" == *:* ]] || $(contains "${options[t]}" "${!all_modules[@]}"); then
+    content="$(output_environvars $(split ':' "${options[t]}"))"
+  fi
+
+  if [[ $# -eq 0 ]]; then
+    for name in '.laradock' '.env.example' '.env'; do
+      if [[ -f "$PWD/$name" ]]; then
+        set "$PWD/$name"
+      fi
+    done
+  fi
+
+  export templatevars="$(echo "$content" | to_load_script environvars | (evaluate; echo "${!environvars[@]}"))"
+
+  (echo "$content"; cat "$@") | to_load_script environvars | (evaluate; {
     extras="$([[ $# -gt 0 && ${options[x]} ]] && echo_extras "$@")"
     extras="$([[ -n "$extras" ]] && (echo_header "Extras"; echo "$extras"))"
     (echo "$content"; echo "$extras") | to_output_script environvars | evaluate > "$output"
