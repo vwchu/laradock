@@ -21,9 +21,9 @@ COMMAND=
 #-----------------------------------------------------------
 
 source "$SCRIPTS_PATH/functions/helpers.sh"
-source "$SCRIPTS_PATH/functions/processinput.sh"
+source "$SCRIPTS_PATH/functions/input.sh"
 source "$SCRIPTS_PATH/functions/output.sh"
-source "$SCRIPTS_PATH/functions/executor.sh"
+source "$SCRIPTS_PATH/functions/run.sh"
 
 #-----------------------------------------------------------
 # Include Commands
