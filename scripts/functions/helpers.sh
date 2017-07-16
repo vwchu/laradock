@@ -46,7 +46,7 @@ split()
 distinct()
 {
   local element
-  local -a uniques=()
+  local -a uniques=( )
 
   for element in "$@"; do
     if ! $(contains "$element" "${uniques[@]}"); then
