@@ -3,19 +3,21 @@
 # Laradock Shell CLI
 #
 
-readonly LARADOCK_ROOT="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")/.."; pwd)"
-readonly SCRIPTS_PATH="$LARADOCK_ROOT/scripts"
+readonly LARADOCK_CLI="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
+readonly LARADOCK_INSTALL="$LARADOCK_CLI/.."
+readonly LIB_PATH="$LARADOCK_CLI/lib"
+readonly DATA_PATH="$LARADOCK_CLI/.data"
 
-source "$SCRIPTS_PATH/configs/variables.sh"
+source "$LIB_PATH/variables.sh"
 
 #-----------------------------------------------------------
 # Include Functions
 #-----------------------------------------------------------
 
-source "$SCRIPTS_PATH/functions/helpers.sh"
-source "$SCRIPTS_PATH/functions/input.sh"
-source "$SCRIPTS_PATH/functions/output.sh"
-source "$SCRIPTS_PATH/functions/run.sh"
+source "$LIB_PATH/functions/helpers.sh"
+source "$LIB_PATH/functions/input.sh"
+source "$LIB_PATH/functions/output.sh"
+source "$LIB_PATH/functions/run.sh"
 
 #-----------------------------------------------------------
 # Include Commands
