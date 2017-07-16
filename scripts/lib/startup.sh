@@ -32,10 +32,28 @@ load_modules()
   source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
 }
 
+load_commands()
+{
+  local name function options aliases
+  local loader="$(mkloader 'Loading command' 'load_command' name function options aliases)"
+
+  load_command()
+  {
+    commands+=("$name")
+    command_map["$name"]="$function"
+    command_opts["$name"]="$options"
+    option_aliases["$name"]="$aliases"
+  }
+
+  source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
+}
+
 boot()
 {
   loginit
   foreach load_modules ${DATA_PATH}/modules/builtins
+  foreach load_commands ${DATA_PATH}/commands/builtins $([[ $ENABLE_PRIVATE_COMMANDS ]]; ifelse "${DATA_PATH}/commands/private")
   ifverb verb echo_modules_info
+  ifverb verb echo_commands_info
   ifverb info echo
 }

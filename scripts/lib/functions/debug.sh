@@ -21,3 +21,25 @@ echo_modules_info()
 
   print_table 'modules_iterator' "${titles[@]}"
 }
+
+echo_commands_info()
+{
+  local -a titles=(
+    'Command'
+    'Function'
+    'Options'
+    'Aliases'
+  )
+
+  commands_iterator()
+  {
+    for command in "${commands[@]}"; do
+      "$1" "${command:--}" \
+           "${command_map[$command]:--}" \
+           "${command_opts[$command]:--}" \
+           "${option_aliases[$command]:--}"
+    done
+  }
+
+  print_table 'commands_iterator' "${titles[@]}"
+}

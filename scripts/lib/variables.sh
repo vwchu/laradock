@@ -19,18 +19,25 @@ declare -A module_docker_dependencies=( )
 # Loaded from `modules/*`.
 declare -A module_env_dependencies=( )
 
+# Array of all of the registered commands
+# in the system. Loaded from `commands/*`
+declare -a commands=( )
+
 # Mapping between a command and a function or
 # alias for another command. Aliases have a
 # square-bracketed value. (i.e.: "[cmd]")
+# Loaded from `commands/*`
 declare -A command_map=( )
 
 # Mapping between a command and its getopts
 # option definition string value.
+# Loaded from `commands/*`
 declare -A command_opts=( )
 
 # A space delimited list of pairs of aliases.
 # Each pair consists of the long form and its
 # corresponding shorthand, separated by a colon.
+# Loaded from `commands/*`
 declare -A option_aliases=( )
 
 # Arrays of user-defined input arguments and
@@ -71,3 +78,6 @@ readonly -A LOG_COLOURS=(
   ['info']='blue'
   ['verb']='purple'
 )
+
+# Flag to enable private developer commands
+ENABLE_PRIVATE_COMMANDS=${ENABLE_PRIVATE_COMMANDS:-false}
