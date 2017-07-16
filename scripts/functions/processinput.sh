@@ -47,20 +47,14 @@ process_command_arguments_impl()
 
 replace_option_aliases()
 {
-  if [[ -n "$COMMAND" ]]; then
-    export opt_aliases="${option_aliases[$COMMAND]} ${option_aliases['*']}"
-  else
-    export opt_aliases="${option_aliases['*']}"
-  fi
+  export opt_aliases="$([[ -n "$COMMAND" ]]; ifelse "${option_aliases[$COMMAND]} ")${option_aliases['*']}"
+
   replace_option_aliases_impl "$@"
 }
 
 process_command_arguments()
 {
-  if [[ -n "$COMMAND" ]]; then
-    export opts="${command_opts[$COMMAND]}${command_opts['*']}"
-  else
-    export opts="${command_opts['*']}"
-  fi
+  export opts="$([[ -n "$COMMAND" ]]; ifelse "${command_opts[$COMMAND]}")${command_opts['*']}"
+
   process_command_arguments_impl "$@"
 }
