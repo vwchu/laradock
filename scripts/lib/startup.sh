@@ -24,6 +24,7 @@ load_modules()
 
 boot()
 {
+  loginit
   foreach load_modules ${DATA_PATH}/modules/*
   ifverb verb echo_modules_info
 }
