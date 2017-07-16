@@ -12,28 +12,27 @@ process_arguments()
   done
 }
 
-replace_option_aliases_impl()
+replace_option_aliases()
 {
   local -A aliases=( )
   local -a shorten=( )
+  local opt_aliases="$([[ -n "$COMMAND" ]]; ifelse "${option_aliases[$COMMAND]} ")${option_aliases['*']}"
 
   for pair in ${opt_aliases}; do
     aliases["$(echo "$pair" | cut -f1 -d':')"]="$(echo "$pair" | cut -f2 -d':')"
   done
 
   for argv in "$@"; do
-    if [[ -n "${aliases[$argv]}" ]]; then
-      shorten+=("${aliases[$argv]}")
-    else
-      shorten+=("$argv")
-    fi
+    shorten+=("$([[ -n "${aliases[$argv]}" ]]; ifelse "${aliases[$argv]}" "$argv")")
   done
   
   arguments=("${shorten[@]}")
 }
 
-process_command_arguments_impl()
+process_command_arguments()
 {
+  local opts="$([[ -n "$COMMAND" ]]; ifelse "${command_opts[$COMMAND]}")${command_opts['*']}"
+
   while getopts "${opts}" opt; do
     case $opt in
       \?) error "invalid option '-$OPTARG'";;
@@ -43,18 +42,4 @@ process_command_arguments_impl()
   done
   shift $((OPTIND-1))
   arguments=("$@")
-}
-
-replace_option_aliases()
-{
-  export opt_aliases="$([[ -n "$COMMAND" ]]; ifelse "${option_aliases[$COMMAND]} ")${option_aliases['*']}"
-
-  replace_option_aliases_impl "$@"
-}
-
-process_command_arguments()
-{
-  export opts="$([[ -n "$COMMAND" ]]; ifelse "${command_opts[$COMMAND]}")${command_opts['*']}"
-
-  process_command_arguments_impl "$@"
 }
