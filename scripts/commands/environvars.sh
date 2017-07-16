@@ -2,16 +2,31 @@
 
 to_load_script()
 {
-  sed -re 's/^([^=]*)=(.*)$/'$1'[\1]="\2"/'
+  sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
 }
 
 to_output_script()
 {
-  sed -re 's/^([^=]*)=.*$/\1=$\{'$1'[\1]\}/' \
+  sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
        -e 's/`/\\`/g' \
        -e '/^#/ s/\$/\\$/g' \
        -e '1 i\cat - <<EOF' \
        -e '$ a\EOF'
+}
+
+echo_extras()
+{
+  local -A environvars=( )
+  local -a included=($(split ' ' "${templatevars}"))
+
+  cat "$@" | to_load_script environvars | (evaluate; {
+    for var in ${!environvars[@]}; do
+      if ! $(contains "$var" "${included[@]}"); then
+        echo "${var}=${environvars[$var]}"
+        included+=("$var")
+      fi
+    done
+  } | prepend_empty_line)
 }
 
 list_environ_impl()
@@ -77,7 +92,13 @@ output_processed_environvars()
   local output="${options[o]:-/dev/stdout}"
   local -A environvars=( )
   local content="$( ([[ -n "${options[t]}" ]] && [[ -e "${options[t]}" || "${options[t]}" == '-' ]] && cat "${options[t]}") || output_environvars)"
+  local templatevars="$(echo "$content" | to_load_script environvars | (evaluate; echo "${!environvars[@]}"))"
+  local customs="$([[ $# -gt 0 ]] && cat "$@")"
 
-  (echo "$content"; [[ $# -gt 0 ]] && cat "$@") | to_load_script environvars | \
-    (evaluate; echo "$content" | to_output_script environvars | evaluate > "$output")
+  (echo "$content"; echo "$customs") | to_load_script environvars | (evaluate; {
+    export templatevars="${templatevars}"
+    extras="$([[ $# -gt 0 && ${options[x]} ]] && echo_extras "$@")"
+    extras="$([[ -n "$extras" ]] && (echo_header "Extras"; echo "$extras"))"
+    (echo "$content"; echo "$extras") | to_output_script environvars | evaluate > "$output"
+  })
 }

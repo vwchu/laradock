@@ -53,7 +53,7 @@ declare -A command_map=(
 declare -A command_opts=(
   ['*']='shv'
   ['environvars:template']=':o:a'
-  ['environvars:evaluate']=':o:t:a'
+  ['environvars:evaluate']=':o:t:ax'
   ['dockercompose:args']=':a'
   ['dockercompose:list']=':a'
 )
@@ -64,7 +64,7 @@ declare -A command_opts=(
 declare -A option_aliases=(
   ['*']='--silent:-s --help:-h --version:-v'
   ['environvars:template']="--output:-o --all:-a"
-  ['environvars:evaluate']="--output:-o --all:-a --template:-t"
+  ['environvars:evaluate']="--output:-o --all:-a --template:-t --include-extras:-x"
   ['dockercompose:args']='--all:-a'
   ['dockercompose:list']='--all:-a'
 )

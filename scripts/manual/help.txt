@@ -40,6 +40,8 @@ ENVIRONVARS:EVALUATE
 
   -t, --template <template>   Input template to use as output. (default: stdin)
                               '-' aliases for stdin.
+  -x, --include-extras        Include any variables in the overrides that is not
+                              included in the template output. (default: false)
 
   [overrides...]              List of files containing the user-defined values
                               to override or substitute the default values in the
