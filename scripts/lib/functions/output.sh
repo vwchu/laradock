@@ -129,7 +129,7 @@ print_table()
 
   table_header()
   {
-    head -c $1 < /dev/zero | tr '\0' '-'; echo -n ' '
+    head -c $1 < /dev/zero | tr '\0' '-'
   }
 
   update_fields "${titles[@]}"

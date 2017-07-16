@@ -13,7 +13,7 @@ foreach()
 {
   local element
   for element in "${@:2}"; do
-    "$1" "$element"
+    "$1" "$element"; echo -n " "
   done
 }
 
