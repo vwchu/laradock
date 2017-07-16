@@ -54,7 +54,7 @@ COMMAND=
 readonly DIV_COLUMNS=60
 
 # Verbosity output level (0 through 5) [silent => verbose]
-VERBOSE=${VERBOSE:-4}
+VERBOSE=${VERBOSE:-2}
 
 # Output file for log entries to be written to
 LOG_FILE="${LOG_FILE:-}"
