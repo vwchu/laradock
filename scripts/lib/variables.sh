@@ -53,7 +53,7 @@ COMMAND=
 # configuration file.
 readonly DIV_COLUMNS=60
 
-# Verbosity output level (0 through 5) [silent => verbose]
+# Verbosity output level (0 through 6) [silent => verbose]
 VERBOSE=${VERBOSE:-2}
 
 # Output file for log entries to be written to
@@ -64,6 +64,7 @@ readonly -a LOG_LEVELS=(
   'silent'
   'error'
   'warn'
+  'note'
   'success'
   'info'
   'verb'
@@ -74,6 +75,7 @@ readonly -a LOG_LEVELS=(
 readonly -A LOG_COLOURS=(
   ['error']='red'
   ['warn']='yellow'
+  ['note']='orange'
   ['success']='green'
   ['info']='blue'
   ['verb']='purple'
