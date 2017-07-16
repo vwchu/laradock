@@ -16,6 +16,7 @@ source "$LIB_PATH/startup.sh"
 #-----------------------------------------------------------
 
 source "$LIB_PATH/functions/debug.sh"
+source "$LIB_PATH/functions/depends.sh"
 source "$LIB_PATH/functions/helpers.sh"
 source "$LIB_PATH/functions/input.sh"
 source "$LIB_PATH/functions/output.sh"
