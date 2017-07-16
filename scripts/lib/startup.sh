@@ -1,8 +1,25 @@
 #!/bin/bash
 
+mkloader()
+{
+  local log_message="$1"
+  local load_func="$2"
+  local -a attributes=("${@:3}")
+
+  assign_attribute()
+  {
+    echo -n 'print "'${attributes[$1]}'=\""$'$(($1+1))'"\"";'
+  }
+
+  echo -n '{print "log info -ne \"'$log_message': "$0"\\r\"";'
+  foreach assign_attribute "${!attributes[@]}"
+  echo -n 'print "'$load_func'";}'
+}
+
 load_modules()
 {
   local name path docker_depends env_depends
+  local loader="$(mkloader 'Loading module' 'load_module' name path docker_depends env_depends)"
 
   load_module()
   {
@@ -12,19 +29,13 @@ load_modules()
     module_env_dependencies["$name"]="${env_depends:-$docker_depends}"
   }
 
-  source /dev/stdin < <(cat "$1" | awk -F ':' '{
-    print "log info -ne \"Loading module: "$0"\\r\"";
-    print "name=\""$1"\"";
-    print "path=\""$2"\"";
-    print "docker_depends=\""$3"\"";
-    print "env_depends=\""$4"\"";
-    print "load_module";
-  }')
+  source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
 }
 
 boot()
 {
   loginit
-  foreach load_modules ${DATA_PATH}/modules/*
+  foreach load_modules ${DATA_PATH}/modules/builtins
   ifverb verb echo_modules_info
+  ifverb info echo
 }

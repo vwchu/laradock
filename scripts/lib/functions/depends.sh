@@ -11,7 +11,7 @@ resolve_dependencies()
     counter=0
     for idx in "${!queue[@]}"; do
       depend="${queue[$idx]}"
-      for newdepend in $(split ',' "$(source /dev/stdin < <(echo 'echo "${'$1'[$depend]}"'))"); do
+      for newdepend in $(split ':' "$(source /dev/stdin < <(echo 'echo "${'$1'[$depend]}"'))"); do
         if [[ -n "$newdepend" ]] && ! $(contains "$newdepend" "${dependencies[@]}"); then
           dependencies+=("$newdepend")
           queue+=("$newdepend")
