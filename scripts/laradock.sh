@@ -9,11 +9,13 @@ readonly LIB_PATH="$LARADOCK_CLI/lib"
 readonly DATA_PATH="$LARADOCK_CLI/.data"
 
 source "$LIB_PATH/variables.sh"
+source "$LIB_PATH/startup.sh"
 
 #-----------------------------------------------------------
 # Include Functions
 #-----------------------------------------------------------
 
+source "$LIB_PATH/functions/debug.sh"
 source "$LIB_PATH/functions/helpers.sh"
 source "$LIB_PATH/functions/input.sh"
 source "$LIB_PATH/functions/output.sh"
@@ -30,6 +32,7 @@ source "$LIB_PATH/functions/run.sh"
 
 main()
 {
+  boot
   process_arguments "$@"
   process_command
 }
