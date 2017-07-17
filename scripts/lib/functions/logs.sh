@@ -41,11 +41,17 @@ error()
   log error "$@"
 }
 
+abort()
+{
+  log fatal "${@:2}"
+  exit $1
+}
+
 ifok()
 {
   local status=${3:-$?}
   if [[ 0 -eq $status ]]; then
-    log success "$1"
+    log ok "$1"
     return 0
   else
     error "$2"
@@ -56,4 +62,12 @@ ifok()
 iferror()
 {
   [[ 0 -ne $? ]] && error "$@"
+}
+
+assert()
+{
+  local status=$?
+  if [[ 0 -ne $status ]]; then
+    abort $status "$@"
+  fi
 }
