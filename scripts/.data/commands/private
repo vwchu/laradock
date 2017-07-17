@@ -5,3 +5,5 @@ environ:envvars,functions/environ.sh#make_envvars
 environ:env,functions/environ.sh#make_env
 dockercompose:files,functions/dockercompose.sh#list_dockercompose_files
 dockercompose:list,functions/dockercompose.sh#list_dockercompose_files_with_separator
+debug:modules,functions/debug.sh#echo_modules_info
+debug:commands,functions/debug.sh#echo_commands_info
