@@ -10,17 +10,6 @@ make_envexample()
 {
   local included=$(resolve_env_dependencies "$@")
 
-  echo_envexample()
-  {
-    local transform=$([[ $noheader ]]; ifelse cat echo_divheader)
-
-    for filepath in $(foreach resolve_envexample_filepath "$@"); do
-      if [[ -r "$filepath" ]]; then
-        cat "$filepath" | $transform | prepend_empty_line
-      fi
-    done
-  }
-
   echo_header "General Setup"
   noheader=true echo_envexample ""
   noheader=true echo_envexample "misc"
@@ -58,15 +47,6 @@ make_env()
           -e '/^#/ s/\$/\\$/g' \
           -e '1 i\cat - <<EOF' \
           -e '$ a\EOF'
-  }
-
-  echo_envvars()
-  {
-    for filepath in $(foreach resolve_envvars_filepath "$@"); do
-      if [[ -r "$filepath" ]]; then
-        cat "$filepath"
-      fi
-    done
   }
 
   find_extras()
