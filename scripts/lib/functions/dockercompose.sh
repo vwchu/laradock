@@ -19,3 +19,8 @@ list_dockercompose_files()
   echo_dockercompose_path; echo -n ' '
   foreach echo_dockercompose_path ${included[@]:-${modules[@]}}
 }
+
+list_dockercompose_files_with_separator()
+{
+  list_dockercompose_files false "${@:2}" | trim | tr '[[:space:]]' "$1"
+}

@@ -3,3 +3,4 @@ depends:env,resolve_env_dependencies
 environ:example,make_envexample
 environ:evalenv,make_env
 dockercompose:files,list_dockercompose_files
+dockercompose:list,list_dockercompose_files_with_separator
