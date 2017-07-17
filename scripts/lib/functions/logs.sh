@@ -40,3 +40,20 @@ error()
 {
   log error "$@"
 }
+
+ifok()
+{
+  local status=${3:-$?}
+  if [[ 0 -eq $status ]]; then
+    log success "$1"
+    return 0
+  else
+    error "$2"
+    return 1
+  fi
+}
+
+iferror()
+{
+  [[ 0 -ne $? ]] && error "$@"
+}
