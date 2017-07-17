@@ -2,7 +2,10 @@
 
 remove_nonprintable()
 {
-  tr -cd '\11\12\15\40-\176'
+  sed -e "s/\x1b\[.\{1,5\}m//g" \
+    | sed -e "s/\x1b\[.//g" \
+    | tr -d '[[:cntrl:]]' \
+    | tr -cd '\11\12\15\40-\176'
 }
 
 prepend_empty_line()
@@ -173,7 +176,7 @@ log()
       echo -n "${header}" >&3
       echo "${@:2}" >&3
     else
-      set_cursor el
+      set_cursor el >&3
       echo_coloured ${LOG_COLOURS[$1]} "${header}" >&3
       echo "${@:2}" >&3
     fi
