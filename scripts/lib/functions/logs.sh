@@ -32,8 +32,12 @@ log()
       echo "${@:2}" >&3
     else
       set_cursor el >&3
-      echo_coloured ${LOG_COLOURS[$1]} "${header}" >&3
-      echo "${@:2}" >&3
+      if [[ $VERBOSE -lt $treshold && $1 == 'ok' ]]; then
+        echo_coloured ${LOG_COLOURS[$1]} -e "|> ${@:2}\n" >&3
+      else
+        echo_coloured ${LOG_COLOURS[$1]} "${header}" >&3
+        echo "${@:2}" >&3
+      fi
     fi
   fi
 }
