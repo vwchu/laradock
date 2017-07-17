@@ -24,13 +24,15 @@ make_envexample()
 #
 # $1:   boolean whether or not to include extra variables
 # $2:   reference to the .env.example to be used as the template
-# ..:   references to .env.vars with the variables specific to the project
+# $3:   references to .env.vars with the variables specific to the project, colon-separated list
+# $4:   environment variables to include during evaluation, colon-separated list
 #
 make_env()
 {
   local include_extras=$1
   local envexample_path="$(resolve_envexample_filepath "$2")"
   local -a envvars_paths=($(split ':' "$3"))
+  local -a import_vars=($(split ':' "$4"))
   local -a included=( )
   local -A variables=( )
   local envexample
@@ -47,6 +49,15 @@ make_env()
           -e '/^#/ s/\$/\\$/g' \
           -e '1 i\cat - <<EOF' \
           -e '$ a\EOF'
+  }
+
+  import_variables()
+  {
+    local var
+
+    for var in "$@"; do
+      variables[$var]="$(echo "echo \"\$$var\"" | evaluate)"
+    done
   }
 
   find_extras()
@@ -74,6 +85,7 @@ make_env()
     local envvars="$(echo_envvars "$@" | prepend_empty_line)"
 
     included=($(echo "$envexample" | to_load_script variables | (evaluate; echo "${!variables[@]}")))
+    import_variables "${import_vars[@]}"
 
     (echo "$envexample$envvars") | to_load_script variables | (evaluate; {
       extras="$([[ $include_extras == true ]] && (echo "$envvars" | extras_envvars))"
