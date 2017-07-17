@@ -2,7 +2,8 @@
 
 ifelse()
 {
-  if [[ 0 -eq $? ]]; then
+  local status=${3:-$?}
+  if [[ 0 -eq $status ]]; then
     echo "$1"
   else
     echo "$2"
