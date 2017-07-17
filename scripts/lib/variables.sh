@@ -53,20 +53,14 @@ COMMAND=
 # configuration file.
 readonly DIV_COLUMNS=60
 
-# Verbosity output level (0 through 7) [silent => verbose]
-VERBOSE=${VERBOSE:-2}
-
-# Output file for log entries to be written to
-LOG_FILE="${LOG_FILE:-}"
-
 # LIst of accepted log levels in the system
 readonly -a LOG_LEVELS=(
   'silent'
+  'ok'
   'fatal'
   'error'
   'warn'
   'note'
-  'ok'
   'info'
   'verb'
 )
@@ -82,6 +76,12 @@ readonly -A LOG_COLOURS=(
   ['info']='blue'
   ['verb']='purple'
 )
+
+# Output file for log entries to be written to
+LOG_FILE="${LOG_FILE:-}"
+
+# Verbosity output level (0 through 7) [silent => verbose]
+VERBOSE=${VERBOSE:-3}
 
 # Flag to enable private developer commands
 ENABLE_PRIVATE_COMMANDS=${ENABLE_PRIVATE_COMMANDS:-false}
