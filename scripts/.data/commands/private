@@ -1,7 +1,7 @@
-depends:docker,resolve_docker_dependencies
-depends:env,resolve_env_dependencies
-environ:example,make_envexample
-environ:envvars,make_envvars
-environ:env,make_env
-dockercompose:files,list_dockercompose_files
-dockercompose:list,list_dockercompose_files_with_separator
+depends:docker,functions/depends.sh#resolve_docker_dependencies
+depends:env,functions/depends.sh#resolve_env_dependencies
+environ:example,functions/environ.sh#make_envexample
+environ:envvars,functions/environ.sh#make_envvars
+environ:env,functions/environ.sh#make_env
+dockercompose:files,functions/dockercompose.sh#list_dockercompose_files
+dockercompose:list,functions/dockercompose.sh#list_dockercompose_files_with_separator

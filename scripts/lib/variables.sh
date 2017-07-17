@@ -23,10 +23,12 @@ declare -A module_env_dependencies=( )
 # in the system. Loaded from `commands/*`
 declare -a commands=( )
 
-# Mapping between a command and a function or
-# alias for another command. Aliases have a
-# square-bracketed value. (i.e.: "[cmd]")
-# Loaded from `commands/*`
+# Mapping between a command and a function and 
+# its source code filepath that contains that function,
+# delimited by a hash '#' (i.e.: "filepath#function"),
+# with filepath relative to LIB_PATH, or alias for
+# another command. Aliases have a square-bracketed
+# value. (i.e.: "[cmd]") Loaded from `commands/*`
 declare -A command_map=( )
 
 # Mapping between a command and its getopts
