@@ -24,7 +24,9 @@ ifverb()
 log()
 {
   if [[ $VERBOSE -ge "$(indexof $1 ${LOG_LEVELS[@]})" ]]; then
-    local header="$(echo "[$1 $(date -uIseconds)]: " | awk '{print toupper($0)}')"
+    local treshold="$(indexof note ${LOG_LEVELS[@]})"
+    local datetime="$(date -uIseconds)"
+    local header="$([[ $VERBOSE -ge $treshold ]]; ifelse "[$1 $datetime]: " "[$1]: " | awk '{print toupper($0)}')"
     if [[ -n "$LOG_FILE" ]]; then
       echo -n "${header}" >&3
       echo "${@:2}" >&3
