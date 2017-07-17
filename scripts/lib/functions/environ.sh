@@ -1,28 +1,47 @@
 #!/bin/bash
 
+resolve_envexample_filepath()
+{
+  local root="$LARADOCK_INSTALL"
+  local filepath
+
+  for fmt in {$root/%s,%s}{/,}.env.example %s; do
+    filepath="$(printf "$fmt" "$1")"
+
+    if [[ -f "$filepath" || -p "$filepath" ]]; then
+      echo -n "$filepath"
+      return 0
+    else
+      log note "unable to resolve filepath: $filepath"
+    fi
+  done
+
+  log warn "unable to resolve '.env.example': $1"
+  return 1
+}
+
+resolve_envvars_filepath()
+{
+  local filepath
+
+  for fmt in %s/{.env.vars,.laradock,.env.laradock} %s; do
+    filepath="$(printf "$fmt" "$1")"
+
+    if [[ -f "$filepath" || -p "$filepath" ]]; then
+      echo -n "$filepath"
+      return 0
+    else
+      log note "unable to resolve filepath: $filepath"
+    fi
+  done
+
+  log warn "unable to resolve '.env.vars': $1"
+  return 1
+}
+
 make_envexample()
 {
   local included=$(resolve_env_dependencies "$@")
-  local root="$LARADOCK_INSTALL"
-
-  resolve_envexample_filepath()
-  {
-    local filepath
-
-    for fmt in {$root/%s,%s}{/,}.env.example %s; do
-      filepath="$(printf "$fmt" "$1")"
-
-      if [[ -f "$filepath" || -p "$filepath" ]]; then
-        echo -n "$filepath"
-        return 0
-      else
-        log note "unable to resolve filepath: $filepath"
-      fi
-    done
-
-    log warn "unable to resolve '.env.example': $1"
-    return 1
-  }
 
   echo_envexample()
   {
@@ -40,4 +59,79 @@ make_envexample()
   noheader=true echo_envexample "misc"
   echo_header "Containers Customization"
   echo_envexample ${included[@]}
+}
+
+make_env()
+{
+  local include_extras=$1
+  local envexample_path="$(resolve_envexample_filepath "$2")"
+  local -a envvars_paths=("${@:3}")
+  local -a included=( )
+  local envexample
+
+  to_load_script()
+  {
+    sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
+  }
+ 
+  to_output_script()
+  {
+    sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
+         -e 's/`/\\`/g' \
+         -e '/^#/ s/\$/\\$/g' \
+         -e '1 i\cat - <<EOF' \
+         -e '$ a\EOF'
+  }
+
+  echo_envvars()
+  {
+    for filepath in $(foreach resolve_envvars_filepath "$@"); do
+      if [[ -r "$filepath" ]]; then
+        cat "$filepath"
+      fi
+    done
+  }
+
+  extras_envvars()
+  {
+    local -A variables=( )
+
+    find_extras()
+    {
+      local var
+
+      for var in "${!variables[@]}"; do
+        if ! $(contains "$var" "${included[@]}"); then
+          echo "${var}=${variables[$var]}"
+          included+=("$var")
+        fi
+      done
+    }
+
+    cat - | to_load_script variables \
+          | (evaluate; find_extras) \
+          | prepend_empty_line
+  }
+
+  evaluate_envvars()
+  {
+    local extras
+    local envvars="$(echo_envvars "$@" | prepend_empty_line)"
+    local -A variables=( )
+
+    included=($(echo "$envexample" | to_load_script variables | (evaluate; echo "${!variables[@]}")))
+
+    (echo "$envexample$envvars") | to_load_script variables | (evaluate; {
+      extras="$([[ $include_extras == true ]] && (echo "$envvars" | extras_envvars))"
+      extras="$([[ -n "$extras" ]] && (echo_header "Extras" | prepend_empty_line; echo "$extras"))"
+      (echo "$envexample$extras") | to_output_script variables | evaluate
+    })
+  }
+
+  if [[ -r "$envexample_path" ]]; then
+    envexample="$(cat "$envexample_path")"
+    evaluate_envvars "${envvars_paths[@]}"
+  else
+    error "unable to open: $envexample_path"
+  fi
 }

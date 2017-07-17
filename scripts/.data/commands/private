@@ -1,3 +1,4 @@
 depends:docker,resolve_docker_dependencies
 depends:env,resolve_env_dependencies
 environ:example,make_envexample
+environ:evalenv,make_env
