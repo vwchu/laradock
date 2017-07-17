@@ -7,8 +7,11 @@ resolve_filepath()
   for fmt in "${@:3}"; do
     filepath="$(printf "$fmt" "$1")"
 
-    if [[ -f "$filepath" || -p "$filepath" ]]; then
+    if [[ -f "$filepath" ]]; then
       echo -n "$(readlink -f -- "$filepath")"
+      return 0
+    elif [[ -p "$filepath" ]]; then
+      echo -n "$filepath"
       return 0
     else
       log note "unable to resolve filepath: $filepath"
