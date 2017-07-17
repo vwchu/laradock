@@ -5,26 +5,6 @@ list_dockercompose_files()
   local with_opthandle=$1
   local included=$(resolve_docker_dependencies "${@:2}")
 
-  resolve_dockercompose_filepath()
-  {
-    local root="$LARADOCK_INSTALL"
-    local filepath
-
-    for fmt in {$root/%s,%s}/docker-compose.yml %s.yml; do
-      filepath="$(printf "$fmt" "$1")"
-
-      if [[ -f "$filepath" ]]; then
-        echo -n "$(readlink -f -- "$filepath")"
-        return 0
-      else
-        log note "unable to resolve filepath: $filepath"
-      fi
-    done
-
-    log warn "unable to resolve 'docker-compose.yml': $1"
-    return 1
-  }
-
   echo_dockercompose_path()
   {
     local filepath="$(resolve_dockercompose_filepath "$1")"

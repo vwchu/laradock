@@ -10,26 +10,6 @@ make_envexample()
 {
   local included=$(resolve_env_dependencies "$@")
 
-  resolve_envexample_filepath()
-  {
-    local root="$LARADOCK_INSTALL"
-    local filepath
-
-    for fmt in {$root/%s,%s}{/,}{.env,.laradock}.example %s; do
-      filepath="$(printf "$fmt" "$1")"
-
-      if [[ -f "$filepath" || -p "$filepath" ]]; then
-        echo -n "$(readlink -f -- "$filepath")"
-        return 0
-      else
-        log note "unable to resolve filepath: $filepath"
-      fi
-    done
-
-    log warn "unable to resolve '.env.example': $1"
-    return 1
-  }
-
   echo_envexample()
   {
     local transform=$([[ $noheader ]]; ifelse cat echo_divheader)
@@ -78,25 +58,6 @@ make_env()
           -e '/^#/ s/\$/\\$/g' \
           -e '1 i\cat - <<EOF' \
           -e '$ a\EOF'
-  }
-
-  resolve_envvars_filepath()
-  {
-    local filepath
-
-    for fmt in %s{/,}{.env.vars,.laradock,.env.laradock} %s; do
-      filepath="$(printf "$fmt" "$1")"
-
-      if [[ -f "$filepath" || -p "$filepath" ]]; then
-        echo -n "$(readlink -f -- "$filepath")"
-        return 0
-      else
-        log note "unable to resolve filepath: $filepath"
-      fi
-    done
-
-    log warn "unable to resolve '.env.vars': $1"
-    return 1
   }
 
   echo_envvars()

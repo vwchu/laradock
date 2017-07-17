@@ -19,6 +19,7 @@ source "$LIB_PATH/functions/debug.sh"
 source "$LIB_PATH/functions/depends.sh"
 source "$LIB_PATH/functions/dockercompose.sh"
 source "$LIB_PATH/functions/environ.sh"
+source "$LIB_PATH/functions/files.sh"
 source "$LIB_PATH/functions/helpers.sh"
 source "$LIB_PATH/functions/input.sh"
 source "$LIB_PATH/functions/output.sh"
@@ -27,7 +28,6 @@ source "$LIB_PATH/functions/run.sh"
 #-----------------------------------------------------------
 # Include Commands
 #-----------------------------------------------------------
-
 
 #-----------------------------------------------------------
 # Main
