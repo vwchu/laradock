@@ -52,7 +52,7 @@ boot()
 {
   loginit
   foreach load_modules ${DATA_PATH}/modules/builtins 1> /dev/null
-  foreach load_commands ${DATA_PATH}/commands/builtins $([[ $ENABLE_PRIVATE_COMMANDS ]]; ifelse "${DATA_PATH}/commands/private") 1> /dev/null
+  foreach load_commands ${DATA_PATH}/commands/builtins $([[ $ENABLE_PRIVATE_COMMANDS == true ]]; ifelse "${DATA_PATH}/commands/private") 1> /dev/null
   ifverb verb echo_modules_info
   ifverb verb echo_commands_info
   ifverb info echo
