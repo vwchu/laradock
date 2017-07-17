@@ -12,6 +12,6 @@ on_init()
 
   ENV_FILE="${output}"
 
-  make_envexample "${@:2}" > "$envexample"
-  make_envvars "$project_name" "${@:2}" > "$envvars"
+  write_to_file "$envexample" make_envexample "${@:2}"
+  write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
 }
