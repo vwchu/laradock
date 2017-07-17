@@ -1,5 +1,10 @@
 #!/bin/bash
 
+trim()
+{
+  sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
 remove_nonprintable()
 {
   sed -e "s/\x1b\[.\{1,5\}m//g" \
