@@ -1,44 +1,5 @@
 #!/bin/bash
 
-resolve_envexample_filepath()
-{
-  local root="$LARADOCK_INSTALL"
-  local filepath
-
-  for fmt in {$root/%s,%s}{/,}.env.example %s; do
-    filepath="$(printf "$fmt" "$1")"
-
-    if [[ -f "$filepath" || -p "$filepath" ]]; then
-      echo -n "$filepath"
-      return 0
-    else
-      log note "unable to resolve filepath: $filepath"
-    fi
-  done
-
-  log warn "unable to resolve '.env.example': $1"
-  return 1
-}
-
-resolve_envvars_filepath()
-{
-  local filepath
-
-  for fmt in %s/{.env.vars,.laradock,.env.laradock} %s; do
-    filepath="$(printf "$fmt" "$1")"
-
-    if [[ -f "$filepath" || -p "$filepath" ]]; then
-      echo -n "$filepath"
-      return 0
-    else
-      log note "unable to resolve filepath: $filepath"
-    fi
-  done
-
-  log warn "unable to resolve '.env.vars': $1"
-  return 1
-}
-
 #
 # Makes an .env.example given a list of modules.
 # Outputs the generated .env.example to stdout.
@@ -48,6 +9,26 @@ resolve_envvars_filepath()
 make_envexample()
 {
   local included=$(resolve_env_dependencies "$@")
+
+  resolve_envexample_filepath()
+  {
+    local root="$LARADOCK_INSTALL"
+    local filepath
+
+    for fmt in {$root/%s,%s}{/,}{.env,.laradock}.example %s; do
+      filepath="$(printf "$fmt" "$1")"
+
+      if [[ -f "$filepath" || -p "$filepath" ]]; then
+        echo -n "$(readlink -f -- "$filepath")"
+        return 0
+      else
+        log note "unable to resolve filepath: $filepath"
+      fi
+    done
+
+    log warn "unable to resolve '.env.example': $1"
+    return 1
+  }
 
   echo_envexample()
   {
@@ -80,22 +61,42 @@ make_env()
 {
   local include_extras=$1
   local envexample_path="$(resolve_envexample_filepath "$2")"
-  local -a envvars_paths=("${@:3}")
+  local -a envvars_paths=($(split ':' "$3"))
   local -a included=( )
+  local -A variables=( )
   local envexample
 
   to_load_script()
   {
     sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
   }
- 
+
   to_output_script()
   {
     sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
-         -e 's/`/\\`/g' \
-         -e '/^#/ s/\$/\\$/g' \
-         -e '1 i\cat - <<EOF' \
-         -e '$ a\EOF'
+          -e 's/`/\\`/g' \
+          -e '/^#/ s/\$/\\$/g' \
+          -e '1 i\cat - <<EOF' \
+          -e '$ a\EOF'
+  }
+
+  resolve_envvars_filepath()
+  {
+    local filepath
+
+    for fmt in %s{/,}{.env.vars,.laradock,.env.laradock} %s; do
+      filepath="$(printf "$fmt" "$1")"
+
+      if [[ -f "$filepath" || -p "$filepath" ]]; then
+        echo -n "$(readlink -f -- "$filepath")"
+        return 0
+      else
+        log note "unable to resolve filepath: $filepath"
+      fi
+    done
+
+    log warn "unable to resolve '.env.vars': $1"
+    return 1
   }
 
   echo_envvars()
@@ -107,22 +108,20 @@ make_env()
     done
   }
 
+  find_extras()
+  {
+    local var
+
+    for var in "${!variables[@]}"; do
+      if ! $(contains "$var" "${included[@]}"); then
+        echo "${var}=${variables[$var]}"
+        included+=("$var")
+      fi
+    done
+  }
+
   extras_envvars()
   {
-    local -A variables=( )
-
-    find_extras()
-    {
-      local var
-
-      for var in "${!variables[@]}"; do
-        if ! $(contains "$var" "${included[@]}"); then
-          echo "${var}=${variables[$var]}"
-          included+=("$var")
-        fi
-      done
-    }
-
     cat - | to_load_script variables \
           | (evaluate; find_extras) \
           | prepend_empty_line
@@ -132,7 +131,6 @@ make_env()
   {
     local extras
     local envvars="$(echo_envvars "$@" | prepend_empty_line)"
-    local -A variables=( )
 
     included=($(echo "$envexample" | to_load_script variables | (evaluate; echo "${!variables[@]}")))
 
