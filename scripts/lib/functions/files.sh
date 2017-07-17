@@ -106,8 +106,6 @@ write_to_file()
   fi
 
   $2 "${@:3}" > "$1"
-  ifok "generated: $shortened" \
-       "failed to generate: $shortened"
-
+  ifok "Generated: $shortened" "Failed to generate: $shortened"
   return $?
 }
