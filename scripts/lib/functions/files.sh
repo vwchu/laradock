@@ -98,7 +98,7 @@ write_to_file()
 
   if [[ -f "$filepath" ]]; then
     shortened=$(relative_filepath "$PWD" "$filepath")
-    read -p "$(echo_coloured blue "'$shortened' already exists, replace it? (yes/no): ")" response
+    read -p "$(echo_coloured cyan "|> '$shortened' already exists, replace it? (yes/no): ")" response
     response="$(echo "$response" | tr '[[:upper:]]' '[[:lower:]]')"
     if [[ "$response" != 'yes' && "$response" != 'y' ]]; then
       log info "skipping: $shortened"
