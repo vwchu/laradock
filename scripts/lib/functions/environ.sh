@@ -64,7 +64,7 @@ make_envexample()
   noheader=true echo_envexample ""
   noheader=true echo_envexample "misc"
   echo_header "Containers Customization"
-  echo_envexample ${included[@]}
+  echo_envexample ${included[@]:-${modules[@]}}
 }
 
 #

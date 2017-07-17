@@ -36,5 +36,5 @@ list_dockercompose_files()
     fi
   }
 
-  foreach echo_dockercompose_path ${included[@]}
+  foreach echo_dockercompose_path ${included[@]:-${modules[@]}}
 }
