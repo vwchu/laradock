@@ -94,10 +94,9 @@ write_to_file()
 {
   local response
   local filepath="$1"
-  local shortened
+  local shortened=$(relative_filepath "$PWD" "$filepath")
 
   if [[ -f "$filepath" ]]; then
-    shortened=$(relative_filepath "$PWD" "$filepath")
     read -p "$(echo_coloured cyan "|> '$shortened' already exists, replace it? (yes/no): ")" response
     response="$(echo "$response" | tr '[[:upper:]]' '[[:lower:]]')"
     if [[ "$response" != 'yes' && "$response" != 'y' ]]; then
