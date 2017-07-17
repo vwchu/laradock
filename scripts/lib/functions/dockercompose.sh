@@ -9,7 +9,7 @@ resolve_dockercompose_filepath()
     filepath="$(printf "$fmt" "$1")"
 
     if [[ -f "$filepath" ]]; then
-      echo -n "$filepath"
+      echo -n "$(readlink -f -- "$filepath")"
       return 0
     else
       log note "unable to resolve filepath: $filepath"
@@ -36,5 +36,6 @@ list_dockercompose_files()
     fi
   }
 
+  echo_dockercompose_path; echo -n ' '
   foreach echo_dockercompose_path ${included[@]:-${modules[@]}}
 }
