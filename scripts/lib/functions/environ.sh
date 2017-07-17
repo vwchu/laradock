@@ -39,6 +39,12 @@ resolve_envvars_filepath()
   return 1
 }
 
+#
+# Makes an .env.example given a list of modules.
+# Outputs the generated .env.example to stdout.
+#
+# ..:   references to the modules to include within the output.
+#
 make_envexample()
 {
   local included=$(resolve_env_dependencies "$@")
@@ -61,6 +67,15 @@ make_envexample()
   echo_envexample ${included[@]}
 }
 
+#
+# Evaluate the given an .env.example and list of .env.vars.
+# Outputs the generated .env to stdout. Includes extras if
+# specified as true.
+#
+# $1:   boolean whether or not to include extra variables
+# $2:   reference to the .env.example to be used as the template
+# ..:   references to .env.vars with the variables specific to the project
+#
 make_env()
 {
   local include_extras=$1
