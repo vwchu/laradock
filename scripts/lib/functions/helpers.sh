@@ -53,6 +53,16 @@ split()
   echo "${elements[@]}"
 }
 
+join()
+{
+  local delim="$1"
+  local first="$2"
+  local -a rest=("${@:3}")
+
+  echo -n "$first"
+  printf "%s" "${rest[@]/#/$delim}"
+}
+
 distinct()
 {
   local element
