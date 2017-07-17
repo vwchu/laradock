@@ -36,7 +36,7 @@ main()
 {
   boot
   process_arguments "$@"
-  process_command
+  run_command
 }
 
 main "$@"

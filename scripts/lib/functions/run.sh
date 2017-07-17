@@ -1,15 +1,6 @@
 #!/bin/bash
 
-execute_command()
-{
-  if [[ ${options[s]} ]]; then
-    "${command_map[$COMMAND]}" "${arguments[@]}" 2> /dev/null
-  else
-    "${command_map[$COMMAND]}" "${arguments[@]}"
-  fi
-}
-
-process_command()
+run_command()
 {
   if [[ -z "$COMMAND" ]]; then
     error "missing COMMAND, required argument"
@@ -22,6 +13,6 @@ process_command()
   else
     replace_option_aliases "${arguments[@]}"
     process_command_arguments "${arguments[@]}"
-    execute_command
+    ${command_map[$COMMAND]} "${arguments[@]}"
   fi
 }
