@@ -85,11 +85,13 @@ make_env()
     local envvars="$(echo_envvars "$@" | prepend_empty_line)"
 
     included=($(echo "$envexample" | to_load_script variables | (evaluate; echo "${!variables[@]}")))
-    import_variables "${import_vars[@]}"
 
     (echo "$envexample$envvars") | to_load_script variables | (evaluate; {
+      import_variables "${import_vars[@]}"
+
       extras="$([[ $include_extras == true ]] && (echo "$envvars" | extras_envvars))"
       extras="$([[ -n "$extras" ]] && (echo_header "Extras" | prepend_empty_line; echo "$extras"))"
+
       (echo "$envexample$extras") | to_output_script variables | evaluate
     })
   }
@@ -100,4 +102,73 @@ make_env()
   else
     error "unable to open: $envexample_path"
   fi
+}
+
+#
+# Generates a project specific .env.vars given project
+# name and include modules. Outputs the generated .env to stdout.
+# Sets the APPLICATION variable to the current working directory if not previously set.
+# If project name is not given, defaults to basename of APPLICATION.
+# If no modules given, defaults to include all modules
+#
+# $1:   project name, defaults to basename of APPLICATION.
+# ..:   modules to include, defaults to include all modules
+#
+make_envvars()
+{
+  local template_path="$DATA_PATH/templates/envvars"
+  local project_name="${1:-$(basename "$PWD")}"
+  local -a included=("${@:2}")
+  local -A variables=( )
+
+  make_template()
+  {
+    echo_header "Project Specifics"
+    noheader=true echo_envexample "$template_path"
+    echo_header "Overrides"
+  }
+
+  populate_variables()
+  {
+    local app="${APPLICATION:-$PWD}"
+    local name="${project_name:-$(basename "$app")}"
+    local separator="${COMPOSE_PATH_SEPARATOR:-;}"
+
+    variables["APPLICATION"]="$app"
+    variables["COMPOSE_PROJECT_NAME"]="$name"
+    variables["MODULES"]="${included[@]:-${modules[@]}}"
+    variables["COMPOSE_PATH_SEPARATOR"]="$separator"
+    variables["COMPOSE_FILE"]="$(list_dockercompose_files_with_separator "$separator" "${included[@]}")"
+  }
+
+  export_to_environment()
+  {
+    evaluate < <(for var in "${!variables[@]}"; do
+      echo "$var=\"\${variables[$var]}\""
+    done)
+  }
+
+  output_hints()
+  {
+    local -a keywords=( port user password database name path ip id token )
+
+    {
+      echo 'Here are some common variables to customize' | prepend_empty_line
+      echo 'for your project to get your started.'
+      echo 'See the Laradock documentation for more details.'
+
+      make_envexample "$@" \
+        | grep -v '^#' \
+        | grep -iEv '(true|false)' \
+        | grep -iE '^[^=]*('$(join '|' "${keywords[@]}")')=.*' \
+        | prepend_empty_line \
+        | append_empty_line
+
+    } | sed -re 's/^/## /'
+  }
+
+  populate_variables
+  export_to_environment
+  make_template | make_env true /dev/stdin ':' "$(join ':' "${!variables[@]}")"
+  output_hints "${included[@]}" | prepend_empty_line
 }

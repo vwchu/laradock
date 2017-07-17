@@ -1,6 +1,7 @@
 depends:docker,resolve_docker_dependencies
 depends:env,resolve_env_dependencies
 environ:example,make_envexample
-environ:evalenv,make_env
+environ:envvars,make_envvars
+environ:env,make_env
 dockercompose:files,list_dockercompose_files
 dockercompose:list,list_dockercompose_files_with_separator
