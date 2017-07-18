@@ -4,7 +4,10 @@
 # Makes an .env.example given a list of modules.
 # Outputs the generated .env.example to stdout.
 #
-# ..:   references to the modules to include within the output.
+#+ set_description < <(
+#+   echo 'Makes an env example given a list of modules.')
+#+ set_argument rest modules 'String|Path' 'all builtin modules' < <(
+#+   echo 'Modules to include within the output.')
 #
 make_envexample()
 {
@@ -22,10 +25,16 @@ make_envexample()
 # Outputs the generated .env to stdout. Includes extras if
 # specified as true.
 #
-# $1:   boolean whether or not to include extra variables
-# $2:   reference to the .env.example to be used as the template
-# $3:   references to .env.vars with the variables specific to the project, colon-separated list
-# $4:   environment variables to include during evaluation, colon-separated list
+#+ set_description < <(
+#+   echo 'Evaluate the given an .env.example and list of `.env.vars`.')
+#+ set_argument 1 include-extras 'Boolean' < <(
+#+   echo 'Whether or not to include extra variables.')
+#+ set_argument 2 template-file 'String|Path' < <(
+#+   echo 'Env example file to be used as the template.')
+#+ set_argument 3 variable-files "List[String|Path], ':'-separated" < <(
+#+   echo 'Env variables file with the variables specific to the project.')
+#+ set_argument 4 environment-variables "List[String], ':'-separated" < <(
+#+   echo 'Environment variables to include during evaluation.')
 #
 make_env()
 {
@@ -111,8 +120,12 @@ make_env()
 # If project name is not given, defaults to basename of APPLICATION.
 # If no modules given, defaults to include all modules
 #
-# $1:   project name, defaults to basename of APPLICATION.
-# ..:   modules to include, defaults to include all modules
+#+ set_description < <(
+#+   echo 'Makes an env example given a list of modules.')
+#+ set_argument 1 project-name 'String' 'basename of APPLICATION' < <(
+#+   echo 'Sets the project name.')
+#+ set_argument rest modules 'String|Path' 'all builtin modules' < <(
+#+   echo 'Modules to include within the output.')
 #
 make_envvars()
 {

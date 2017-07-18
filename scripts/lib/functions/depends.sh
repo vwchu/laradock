@@ -11,7 +11,7 @@ resolve_dependencies()
     counter=0
     for idx in "${!queue[@]}"; do
       depend="${queue[$idx]}"
-      for newdepend in $(split ':' "$(source /dev/stdin < <(echo 'echo "${'$1'[$depend]}"'))"); do
+      for newdepend in $(split ':' "$(evaluate < <(echo 'echo "${'$1'[$depend]}"'))"); do
         if [[ -n "$newdepend" ]] && ! $(contains "$newdepend" "${dependencies[@]}"); then
           dependencies+=("$newdepend")
           queue+=("$newdepend")
@@ -30,11 +30,31 @@ resolve_dependencies()
   done
 }
 
+#
+# Resolves the given modules' docker dependencies.
+# Returns list of all the modules (docker-compose.yml) required 
+# to run docker for the given modules.
+#
+#+ set_description < <(
+#+   echo 'Returns list of modules dependencies `docker-compose.yml` required for given modules.')
+#+ set_argument rest modules 'String' < <(
+#+   echo 'Desired modules to included in project.')
+#
 resolve_docker_dependencies()
 {
   resolve_dependencies module_docker_dependencies "$@"
 }
 
+#
+# Resolves the given modules' env dependencies.
+# Returns list of all the modules (.env.example) required 
+# to run docker-compose for the given modules.
+#
+#+ set_description < <(
+#+   echo 'Returns list of modules dependencies `.env.example` required for given modules.')
+#+ set_argument rest modules 'String' < <(
+#+   echo 'Desired modules to included in project.')
+#
 resolve_env_dependencies()
 {
   resolve_dependencies module_env_dependencies "$@"
