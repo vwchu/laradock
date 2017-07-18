@@ -23,6 +23,11 @@ declare -A module_env_dependencies=( )
 # in the system. Loaded from `commands/*`
 declare -a commands=( )
 
+# Array of all of the registered grouping commands
+# in the system. Loaded from `commands/*`.
+# Signified by commands: <groupname>:<subcommand>.
+declare -a command_groups=( )
+
 # Mapping between a command and a function and 
 # its source code filepath that contains that function,
 # delimited by a hash '#' (i.e.: "filepath#function"),

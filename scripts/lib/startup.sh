@@ -43,6 +43,10 @@ load_commands()
     command_map["$name"]="$function"
     command_opts["$name"]="$options"
     option_aliases["$name"]="$aliases"
+
+    if [[ "$name" == *:* ]] && ! $(contains "${name%\:*}" "${command_groups[@]}"); then
+      command_groups+=("${name%\:*}")
+    fi
   }
 
   source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
