@@ -22,3 +22,8 @@ append_empty_line()
 {
   sed -e '$ a\ ' | sed -e '$ s/ //'
 }
+
+to_chars()
+{
+  echo "$1" | grep -o .
+}
