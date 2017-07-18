@@ -15,7 +15,7 @@ foreach()
   local i
   local -a elements=("${@:2}")
   for ((i = 0; i < "${#elements[@]}"; i++)); do
-    [[ $i -gt 0 ]] && echo -n "${SEPARATOR:- }"
+    [[ ! $NO_SEPARATOR && $i -gt 0 ]] && echo -n "${SEPARATOR:- }"
     "$1" "${elements[$i]}"
   done
 }
