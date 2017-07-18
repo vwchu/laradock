@@ -150,7 +150,7 @@ make_envvars()
 
   output_hints()
   {
-    local -a keywords=( port user password database name path ip id token )
+    local -a keywords=( port user username password database name path ip id token )
 
     {
       echo 'Here are some common variables to customize' | prepend_empty_line
@@ -160,7 +160,7 @@ make_envvars()
       make_envexample "$@" \
         | grep -v '^#' \
         | grep -iEv '(true|false)' \
-        | grep -iE '^[^=]*('$(join '|' "${keywords[@]}")')=.*' \
+        | grep -iE '^[^=]*_('$(join '|' "${keywords[@]}")')=.*' \
         | prepend_empty_line \
         | append_empty_line
 
