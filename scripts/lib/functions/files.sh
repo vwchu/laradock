@@ -4,8 +4,8 @@ relative_filepath()
 {
   # both $1 and $2 are absolute paths beginning with /
   # returns relative path to $2/$target from $1/$source
-  local source="$1"
-  local target="$2"
+  local source="$([[ "$1" == /* ]]; ifelse "$1" "$PWD/$1")"
+  local target="$([[ "$2" == /* ]]; ifelse "$2" "$PWD/$2")"
   local common_part="$source" # for now
   local result="" # for now
 
@@ -42,7 +42,6 @@ relative_filepath()
 resolve_filepath()
 {
   local filepath
-  local shortened
 
   for fmt in "${@:3}"; do
     filepath="$(printf "$fmt" "$1")"
@@ -54,10 +53,7 @@ resolve_filepath()
       echo -n "$filepath"
       return 0
     else
-      shortened="$(relative_filepath "$PWD" "$filepath")"
-      shortened="$([[ "${#shortened}" -gt "${#filepath}" ]]; ifelse "$filepath" "$shortened")"
-
-      log note "unable to resolve filepath: $shortened"
+      log note "unable to resolve filepath: $filepath"
     fi
   done
 
