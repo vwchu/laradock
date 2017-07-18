@@ -5,7 +5,7 @@ set_colour()
   if [[ ! $NOTTY ]]; then
     case $1 in
       black)        echo -ne '\033[0;30m';;
-      dgray)        echo -ne '\033[1;30m';;
+      dgray|gray)   echo -ne '\033[1;30m';;
       red)          echo -ne '\033[0;31m';;
       lred)         echo -ne '\033[1;31m';;
       green)        echo -ne '\033[0;32m';;
