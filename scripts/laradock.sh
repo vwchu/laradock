@@ -36,6 +36,7 @@ source "$LIB_PATH/functions/strings.sh"
 #-----------------------------------------------------------
 
 source "$LIB_PATH/commands/init.sh"
+source "$LIB_PATH/commands/help.sh"
 
 #-----------------------------------------------------------
 # Main

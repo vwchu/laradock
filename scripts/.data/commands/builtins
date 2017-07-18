@@ -1,1 +1,2 @@
 init,commands/init.sh#on_init,:e:E:O:y,--env-example:-e --envvars:-E --output:-O --env:-O --yes:-y
+help,commands/help.sh#on_help
