@@ -3,10 +3,11 @@
 # Laradock Shell CLI
 #
 
-readonly LARADOCK_CLI="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
-readonly LARADOCK_INSTALL="$(readlink -f -- "$LARADOCK_CLI/..")"
-readonly LIB_PATH="$LARADOCK_CLI/lib"
-readonly DATA_PATH="$LARADOCK_CLI/.data"
+readonly LARADOCK_CLI="$(basename "$BASH_SOURCE")"
+readonly CLI_PATH="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
+readonly LARADOCK_INSTALL="$(readlink -f -- "$CLI_PATH/..")"
+readonly LIB_PATH="$CLI_PATH/lib"
+readonly DATA_PATH="$CLI_PATH/.data"
 
 source "$LIB_PATH/variables.sh"
 source "$LIB_PATH/startup.sh"
