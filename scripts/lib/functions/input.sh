@@ -12,19 +12,51 @@ process_arguments()
   done
 }
 
+resolve_aliased_command()
+{
+  local cmd
+  local -a aliases=( )
+
+  if [[ "${command_map[$1]}" == '['*']' ]]; then
+    resolve_aliased_command "$(echo "${command_map[$1]}" | sed -re 's/^\[(.*)\]$/\1/')"
+  else
+    for cmd in "${commands[@]}"; do
+      if [[ "${command_map[$1]}" == "${command_map[$cmd]}" ]]; then
+        aliases+=("$cmd")
+      fi
+    done
+    if [[ "${#aliases[@]}" -gt 0 ]]; then
+      aliases=("$(echo "${aliases[@]}" | sed -re 's/ /\n/g' | sort)")
+    fi
+    echo -n "${aliases[0]:-$1}"
+  fi
+}
+
+list_command_aliases()
+{
+  local cmd
+  local cmdalias="$(resolve_aliased_command "$1")"
+  local -a aliases=( )
+
+  for cmd in "${commands[@]}"; do
+    if [[ "$1" == "$cmd" ]]; then
+      continue
+    elif [[ "$cmdalias" == "$(resolve_aliased_command "$cmd")" ]]; then
+      aliases+=("$cmd")
+    fi
+  done
+
+  echo -n "${aliases[@]}"
+}
+
 replace_option_aliases()
 {
   local -A aliases=( )
   local -a shorten=( )
   local opt_aliases="$([[ -n "$COMMAND" ]]; ifelse "${option_aliases[$COMMAND]} ")${option_aliases['*']}"
 
-  keyvalue()
-  {
-    echo "$2" | cut -f"$1" -d':'
-  }
-
   for pair in ${opt_aliases}; do
-    aliases["$(keyvalue 1 "$pair")"]="$(keyvalue 2 "$pair")"
+    aliases["${pair%\:*}"]="${pair#*\:}"
   done
 
   for argv in "$@"; do
