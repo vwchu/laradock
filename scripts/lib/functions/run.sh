@@ -6,11 +6,8 @@ run_command()
     error "missing COMMAND, required argument"
   elif [[ -z "${command_map[$COMMAND]}" ]]; then
     error "unrecognized COMMAND '$COMMAND'"
-  elif [[ "${command_map[$COMMAND]}" == '['*']' ]]; then
-    COMMAND="${command_map[$COMMAND]#\[}"
-    COMMAND="${COMMAND%\]}"
-    process_command
   else
+    COMMAND="$(resolve_aliased_command "$COMMAND")"
     replace_option_aliases "${arguments[@]}"
     process_command_arguments "${arguments[@]}"
     ${command_map[$COMMAND]#*\#} "${arguments[@]}"
