@@ -18,8 +18,13 @@ replace_option_aliases()
   local -a shorten=( )
   local opt_aliases="$([[ -n "$COMMAND" ]]; ifelse "${option_aliases[$COMMAND]} ")${option_aliases['*']}"
 
+  keyvalue()
+  {
+    echo "$2" | cut -f"$1" -d':'
+  }
+
   for pair in ${opt_aliases}; do
-    aliases["$(echo "$pair" | cut -f1 -d':')"]="$(echo "$pair" | cut -f2 -d':')"
+    aliases["$(keyvalue 1 "$pair")"]="$(keyvalue 2 "$pair")"
   done
 
   for argv in "$@"; do
