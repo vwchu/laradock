@@ -11,6 +11,7 @@ on_init()
   local project_name="${1:-$(basename "$PWD")}"
 
   ENV_FILE="${output}"
+  NOTTY="${options[y]}"
 
   write_to_file "$envexample" make_envexample "${@:2}"
   write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
