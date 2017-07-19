@@ -3,6 +3,7 @@
 #
 #= DESCRIPTION
 #=    Execute `docker-compose` with the given arguments.
+#= OPTIONBREAK( 1 )
 #= ARGUMENT( 'rest' 'arguments' 'String' )
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )
@@ -18,6 +19,7 @@ on_dockercompose()
 #
 #= DESCRIPTION
 #=    Execute `docker-compose up` with the given arguments.
+#= OPTIONBREAK( 1 )
 #= ARGUMENT( 'rest' 'arguments' 'String' )
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )
@@ -31,6 +33,7 @@ on_up()
 #
 #= DESCRIPTION
 #=    Execute `docker-compose down` with the given arguments.
+#= OPTIONBREAK( 1 )
 #= ARGUMENT( 'rest' 'arguments' 'String' )
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )

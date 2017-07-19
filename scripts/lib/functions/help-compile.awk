@@ -15,18 +15,22 @@ BEGIN {
   last = "";
 }
 
-toupper($0) ~ /^(DESCRIPTION|ARGUMENT|OPTION).*$/ {
+toupper($0) ~ /^(DESCRIPTION|ARGUMENT|OPTION|ENVIRONMENT|OPTIONBREAK).*$/ {
   endblock();
 
   if (toupper($0) ~ /^DESCRIPTION/) {
     command = "set_description"
   } else if (toupper($0) ~ /^ARGUMENT/) {
     command = "set_argument"
+  } else if (toupper($0) ~ /^OPTIONBREAK/) {
+    command = "set_option_break"
   } else if (toupper($0) ~ /^OPTION/) {
     command = "set_option"
+  } else if (toupper($0) ~ /^ENVIRONMENT/) {
+    command = "set_environment"
   }
 
-  if (match($0, /^(DESCRIPTION|ARGUMENT|OPTION)[ ]*\((.*)\)$/, matches)) {
+  if (match($0, /^(DESCRIPTION|ARGUMENT|OPTION|OPTIONBREAK|ENVIRONMENT)[ ]*\((.*)\)$/, matches)) {
     printf "%s %s < <(echo '", command, trim(matches[2]);
   } else {
     printf "%s < <(echo '", command;

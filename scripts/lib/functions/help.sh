@@ -20,9 +20,10 @@ print_help()
   local command="${1:-$COMMAND}"
   local resolved_command="$(resolve_aliased_command "$command")"
   local description
-  local -A colours=( [arg]='yellow' [opt]='cyan' [aliases]='gray' )
+  local -A colours=( [arg]='yellow' [opt]='cyan' [env]='green' [aliases]='gray' )
   local -A args=( )
   local -A opts=( )
+  local -a envs=( )
   local -A attributes=( )
 
   set_description()
@@ -45,6 +46,20 @@ print_help()
     attributes[opt:$1:default]="$3"
     attributes[opt:$1:values]="$4"
     attributes[opt:$1:descript]="$(cat -)"
+  }
+
+  set_environment()
+  {
+    envs+=("$1")
+    attributes[env:$1:type]="${2:-${attributes[env:$1:type]}}"
+    attributes[env:$1:default]="$3"
+    attributes[env:$1:values]="$4"
+    attributes[env:$1:descript]="$(cat -)"
+  }
+
+  set_option_break()
+  {
+    args[$1]="--"
   }
 
   run_docs()
@@ -97,7 +112,7 @@ print_help()
 
   print_argument()
   {
-    if [[ -n "${args[$1]}" ]]; then
+    if [[ -n "${args[$1]}" && "${args[$1]}" != '--' ]]; then
       echo_coloured ${colours[arg]} "${args[$1]}"
       echo_coloured ${colours[arg]} "$([[ -n "${attributes[arg:$1:values]}" ]]; ifelse "=${attributes[arg:$1:values]}" " (${attributes[arg:$1:type]})")"
       [[ -n "${attributes[arg:$1:default]}" ]] && echo_coloured ${colours[arg]} " (Default: ${attributes[arg:$1:default]})"
@@ -114,6 +129,14 @@ print_help()
     echo_coloured ${colours[aliases]} -e "  aliases: ${attributes[opt:$1:aliases]}\n"
   }
 
+  print_environment()
+  {
+    echo_coloured ${colours[env]} "$1"
+    echo_coloured ${colours[env]} "$([[ -n "${attributes[env:$1:values]}" ]]; ifelse "=${attributes[env:$1:values]}" " (${attributes[env:$1:type]})")"
+    [[ -n "${attributes[env:$1:default]}" ]] && echo_coloured ${colours[env]} " (Default: ${attributes[env:$1:default]})"
+    echo -e "\n$(echo "${attributes[env:$1:descript]}" | sed 's/^/  /')"
+  }
+
   print_usage()
   {
     echo -n "$LARADOCK_CLI $command"
@@ -121,7 +144,9 @@ print_help()
     if [[ ${#args[@]} -gt 0 ]]; then
       local idx
       for idx in {1..9} rest; do
-        if [[ -n "${args[$idx]}" ]]; then
+        if [[ "${args[$idx]}" == '--' ]]; then
+          echo_coloured ${colours[arg]} " --"
+        elif [[ -n "${args[$idx]}" ]]; then
           echo_coloured ${colours[arg]} " <${args[$idx]}$([[ $idx == 'rest' ]]; ifelse '...')>"
         fi
       done
@@ -151,5 +176,9 @@ print_help()
     print_aliases
     NO_SEPARATOR=true foreach print_argument {1..9} rest | sed -e 's/^/    /'
     NO_SEPARATOR=true foreach print_option ${!opts[@]} | sed -e 's/^/    /'
+    if [[ "${#envs[@]}" -gt 0 ]]; then
+      echo -e "\n  ENVIRONMENT VARIABLES:"
+      NO_SEPARATOR=true foreach print_environment ${envs[@]} | sed -e 's/^/    /'
+    fi
   fi
 }
