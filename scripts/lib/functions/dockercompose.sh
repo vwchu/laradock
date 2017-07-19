@@ -2,7 +2,10 @@
 
 dockercompose()
 {
-  docker-compose $(list_dockercompose_files true "${MODULES[@]}") "$@"
+  local -a dockeropts=($(list_dockercompose_files true "${MODULES[@]}"))
+
+  log info "docker-compose ${dockeropts[@]} $@"
+  docker-compose "${dockeropts[@]}" "$@"
 }
 
 #
