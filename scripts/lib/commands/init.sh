@@ -3,9 +3,9 @@
 #
 #= DESCRIPTION
 #=    Initializes Laradock in existing Laravel projects.
-#= ARGUMENT( '1' 'project-name' 'String' 'basename of APPLICATION'c)
+#= ARGUMENT( '1' 'project-name' 'String' 'basename of APPLICATION' )
 #=    Sets the project name.
-#= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules'c)
+#= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules' )
 #=    Modules to include within the output.
 #= OPTION( 'e' 'Path' './.laradock.example' )
 #=    File path to sample Env example file to be generate.
