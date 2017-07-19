@@ -19,14 +19,22 @@
 #
 on_build()
 {
+  local -A variables=( )
   local envexample="${options[e]:-$PWD/.laradock.example}"
-  local envvars="${options[E]:-$PWD/.laradock}"; source "$envvars"
-  local output="${options[O]:-$ENV_FILE}"
+  local envvars="${options[E]:-$PWD/.laradock}"
+  local output="${options[O]}"
+
+  evaluate < <(cat "$envvars" | to_load_script variables) 
 
   NOTTY="${options[y]}"
+  MODULES="${variables[MODULES]}"
+  ENV_FILE="${variables[ENV_FILE]}"
 
-  write_to_file "${output:-$PWD/.env}" make_env "$envexample" "$envvars" true true
-  
+  output="${output:-$ENV_FILE}"
+  output="${output:-$PWD/.env}"
+
+  write_to_file "$output" make_env "$envexample" "$envvars" true true
+
   if [[ "${options[d]}" == true ]]; then
     dockercompose build ${@}
   fi

@@ -11,8 +11,13 @@
 #
 on_dockercompose()
 {
-  local environ="${1:-$PWD/.env}"; source "$environ"
+  local -A variables=( )
+  local environ="${1:-$PWD/.env}"
   
+  evaluate < <(cat "$environ" | to_load_script variables) 
+  
+  MODULES="${variables[MODULES]}"
+
   dockercompose "$@"
 }
 
