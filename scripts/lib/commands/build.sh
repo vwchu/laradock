@@ -11,23 +11,23 @@
 #=    Env variables file with the variables specific to the project.
 #= OPTION( 'O' 'Path' './.env' )
 #=    Output Env file path to be generate.
+#= OPTION( 'd' 'Boolean' 'false' )
+#=    Skip `docker-compose build`.
 #= OPTION( 'y' )
 #=    Automatic yes to prompts. Assume "yes" as answer to
 #=    all prompts and run non-interactively.
 #
 on_build()
 {
-  local envexample="${1:-$PWD/.laradock.example}"
-  local envvars="${2:-$PWD/.laradock}"; source "$envvars"
-  local dockerbuild="${options[D]}"
-  local -a dockerimages=($(split ':' "${options[d]}"))
+  local envexample="${options[e]:-$PWD/.laradock.example}"
+  local envvars="${options[E]:-$PWD/.laradock}"; source "$envvars"
   local output="${options[O]:-$ENV_FILE}"
 
   NOTTY="${options[y]}"
 
   write_to_file "${output:-$PWD/.env}" make_env "$envexample" "$envvars" true true
-
-  if [[ ${#dockerimages[@]} -gt 0 || $dockerbuild ]]; then
-    dockercompose build ${dockerimages[@]}
+  
+  if [[ "${options[d]}" == true ]]; then
+    dockercompose build ${@}
   fi
 }
