@@ -78,7 +78,7 @@ print_help()
   parse_options()
   {
     local lastch
-    for ch in $(to_chars "${command_opts[$command]}"); do
+    for ch in $(to_chars "${command_opts[$resolved_command]}"); do
       if [[ "$ch" == ':' && -n "$lastch" ]]; then
         attributes[opt:$lastch:type]="String"
       elif [[ "$ch" != ':' ]]; then
@@ -93,7 +93,7 @@ print_help()
   {
     local opt aliasopt
 
-    for pair in ${option_aliases[$command]}; do
+    for pair in ${option_aliases[$resolved_command]}; do
       opt="${pair#*\:\-}"
       aliasopt="${pair%\:*}"
 
