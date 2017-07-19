@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BASEDIR=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+SCRIPT="./scripts/laradock.sh"
+BASHBIN="/bin/bash"
+
+case $(uname) in
+  *CYGWIN*) BASEDIR=$(cygpath -w "$BASEDIR");;
+esac
+
+if [ -x "$BASEDIR/$BASHBIN" ]; then
+  "$BASEDIR/$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
+else 
+  "$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
+fi
+
+exit $RET
