@@ -53,7 +53,7 @@ resolve_filepath()
       echo -n "$filepath"
       return 0
     else
-      log note "unable to resolve filepath: $filepath"
+      log verb "unable to resolve filepath: $filepath"
     fi
   done
 
