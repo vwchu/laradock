@@ -82,3 +82,26 @@ evaluate()
 {
   source /dev/stdin
 }
+
+os_type()
+{
+  case "$OSTYPE" in
+    solaris*) echo "SOLARIS" ;;
+    darwin*)  echo "OSX" ;;
+    linux*)   echo "LINUX" ;;
+    bsd*)     echo "BSD" ;;
+    freebsd*) echo "FREEBSD" ;;
+    cygwin)   echo "WINDOWS" ;;
+    msys*)    echo "WINDOWS" ;;
+    win32)    echo "WINDOWS" ;; # It could happen... someday. :-)
+    *)        error "unknown system type: $OSTYPE" ;;
+  esac
+}
+
+make_linked_script()
+{
+  local script_template="$DATA_PATH/templates/linked_script"
+  local source_path="$(readlink -f -- "$1")"
+
+  cat "$script_template" | sed -re 's|[$]SOURCE|'"$source_path"'|g'
+}

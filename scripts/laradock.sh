@@ -35,10 +35,11 @@ source "$LIB_PATH/functions/strings.sh"
 # Include Commands
 #-----------------------------------------------------------
 
-source "$LIB_PATH/commands/init.sh"
 source "$LIB_PATH/commands/build.sh"
 source "$LIB_PATH/commands/dockercompose.sh"
 source "$LIB_PATH/commands/help.sh"
+source "$LIB_PATH/commands/init.sh"
+source "$LIB_PATH/commands/install.sh"
 
 #-----------------------------------------------------------
 # Main

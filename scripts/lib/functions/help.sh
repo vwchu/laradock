@@ -139,7 +139,7 @@ print_help()
 
   print_usage()
   {
-    echo -n "$LARADOCK_CLI $command"
+    echo -n "$(basename "$LARADOCK_CLI" '.sh') $command"
     if [[ ${#opts[@]} -gt 0 ]]; then echo_coloured ${colours[opt]} " <options...>"; fi
     if [[ ${#args[@]} -gt 0 ]]; then
       local idx
