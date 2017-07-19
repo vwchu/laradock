@@ -1,5 +1,22 @@
 #!/bin/bash
 
+get_value_by_key()
+{
+  cat "$1" | grep -E "^$2=" | sed -re 's/^.*=(.*)$/\1/'
+}
+
+get_env_metadata()
+{
+  cat "$1" | sed -rne '1,/^#\+$/p' \
+           | grep -E "^#\+ $2=" \
+           | sed -re 's/^#\+[ ]?//' -re 's/^.*=(.*)$/\1/'
+}
+
+strip_env_metadata()
+{
+  cat "$1" | sed -re '1,/^#\+$/d'
+}
+
 #
 # Makes an .env.example given a list of modules.
 # Outputs the generated .env.example to stdout.
@@ -27,23 +44,26 @@ make_envexample()
 #
 #= DESCRIPTION
 #=    Evaluate the given an .env.example and list of `.env.vars`.
-#= ARGUMENT( '1' 'include-extras' 'Boolean' )
-#=    Whether or not to include extra variables.
-#= ARGUMENT( '2' 'template-file' 'String|Path' )
+#= ARGUMENT( '1' 'template-file' 'String|Path' )
 #=    Env example file to be used as the template.
-#= ARGUMENT( '3' 'variable-files' "List[String|Path], ':'-separated" )
+#= ARGUMENT( '2' 'variable-files' "List[String|Path], ':'-separated" )
 #=    Env variables file with the variables specific to the project.
-#= ARGUMENT( '4' 'environment-variables' "List[String], ':'-separated" )
+#= ARGUMENT( '3' 'include-extras' 'Boolean' 'true' )
+#=    Whether or not to include extra variables.
+#= ARGUMENT( '4' 'include-metadata' 'Boolean' 'true' )
+#=    Whether or not to generate and prepend metadata to the output.
+#= ARGUMENT( '5' 'environment-variables' "List[String], ':'-separated" )
 #=    Environment variables to include during evaluation.
 #
 make_env()
 {
-  local include_extras=$1
-  local envexample_path="$(resolve_envexample_filepath "$2")"
-  local -a envvars_paths=($(split ':' "$3"))
-  local -a import_vars=($(split ':' "$4"))
+  local envexample_path="$(resolve_envexample_filepath "$1")"
+  local -a envvars_paths=($(split ':' "$2"))
+  local -a import_vars=($(split ':' "$5"))
   local -a included=( )
   local -A variables=( )
+  local include_extras=${3:-true}
+  local include_metadata=${4:-true}
   local envexample
 
   to_load_script()
@@ -105,9 +125,24 @@ make_env()
     })
   }
 
+  generate_hash()
+  {
+    local output="$(cat -)"
+
+    if [[ "$include_metadata" == true ]]; then
+      echo "## Generated $LARADOCK_CLI. Do not edit."
+      echo "#+ SHA1=$(echo "$output" | sha1sum -t | cut -d' ' -f1)"
+      echo "#+ DATETIME=$(date -uIseconds)"
+      echo "#+ USER=$(whoami)"
+      echo "#+"
+    fi
+
+    echo "${output}"
+  }
+
   if [[ -r "$envexample_path" ]]; then
     envexample="$(cat "$envexample_path")"
-    evaluate_envvars "${envvars_paths[@]}"
+    evaluate_envvars "${envvars_paths[@]}" | generate_hash
   else
     error "unable to open: $envexample_path"
   fi
@@ -182,6 +217,6 @@ make_envvars()
 
   populate_variables
   export_to_environment
-  make_template | make_env true /dev/stdin ':' "$(join ':' "${!variables[@]}")"
+  make_template | make_env /dev/stdin ':' true false "$(join ':' "${!variables[@]}")"
   output_hints "${included[@]}" | prepend_empty_line
 }
