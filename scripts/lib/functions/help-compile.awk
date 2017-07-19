@@ -26,7 +26,7 @@ toupper($0) ~ /^(DESCRIPTION|ARGUMENT|OPTION).*$/ {
     command = "set_option"
   }
 
-  if (match($0, /^(DESCRIPTION|ARGUMENT|OPTION)\((.*)\)$/, matches)) {
+  if (match($0, /^(DESCRIPTION|ARGUMENT|OPTION)[ ]*\((.*)\)$/, matches)) {
     printf "%s %s < <(echo '", command, trim(matches[2]);
   } else {
     printf "%s < <(echo '", command;
