@@ -1,5 +1,19 @@
 #!/bin/bash
 
+to_load_script()
+{
+  sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
+}
+
+to_output_script()
+{
+  sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
+        -e 's/`/\\`/g' \
+        -e '/^#/ s/\$/\\$/g' \
+        -e '1 i\cat - <<EOF' \
+        -e '$ a\EOF'
+}
+
 get_value_by_key()
 {
   cat "$1" | grep -E "^$2=" | sed -re 's/^.*=(.*)$/\1/'
@@ -65,20 +79,6 @@ make_env()
   local include_extras=${3:-true}
   local include_metadata=${4:-true}
   local envexample
-
-  to_load_script()
-  {
-    sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
-  }
-
-  to_output_script()
-  {
-    sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
-          -e 's/`/\\`/g' \
-          -e '/^#/ s/\$/\\$/g' \
-          -e '1 i\cat - <<EOF' \
-          -e '$ a\EOF'
-  }
 
   import_variables()
   {
