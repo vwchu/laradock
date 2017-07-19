@@ -35,7 +35,7 @@ on_build()
 
   write_to_file "$output" make_env "$envexample" "$envvars" true true
 
-  if [[ "${options[d]}" == true ]]; then
+  if [[ "${options[d]:-false}" == false ]]; then
     dockercompose build ${@}
   fi
 }
