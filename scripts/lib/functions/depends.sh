@@ -35,10 +35,11 @@ resolve_dependencies()
 # Returns list of all the modules (docker-compose.yml) required 
 # to run docker for the given modules.
 #
-#+ set_description < <(
-#+   echo 'Returns list of modules dependencies `docker-compose.yml` required for given modules.')
-#+ set_argument rest modules 'String' < <(
-#+   echo 'Desired modules to included in project.')
+#= DESCRIPTION
+#=   Returns list of modules dependencies `docker-compose.yml`
+#=   required for given modules.
+#= ARGUMENT( 'rest' 'modules' 'String' )
+#=   Desired modules to included in project.
 #
 resolve_docker_dependencies()
 {
@@ -50,10 +51,11 @@ resolve_docker_dependencies()
 # Returns list of all the modules (.env.example) required 
 # to run docker-compose for the given modules.
 #
-#+ set_description < <(
-#+   echo 'Returns list of modules dependencies `.env.example` required for given modules.')
-#+ set_argument rest modules 'String' < <(
-#+   echo 'Desired modules to included in project.')
+#= DESCRIPTION
+#=    Returns list of modules dependencies `.env.example`
+#=    required for given modules.
+#= ARGUMENT( 'rest' 'modules' 'String' )
+#=    Desired modules to included in project.
 #
 resolve_env_dependencies()
 {

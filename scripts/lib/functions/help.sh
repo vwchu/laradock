@@ -1,5 +1,20 @@
 #!/bin/bash
 
+compile_helpdocs()
+{
+  cat | awk -f "${LIB_PATH}/functions/help-compile.awk"
+}
+
+process_helpdocs()
+{
+  local docs="$(tac "${LIB_PATH}/${command_map[$1]%\#*}" \
+                    | sed -n '/^'${command_map[$1]#*\#}'()$/,/^$/p' \
+                    | sed -e '1d' -e '$d')"
+  
+  echo "$docs" | sed -re 's/^#\+[ ]?//' -e '/^#/d' | tac
+  echo "$docs" | sed -re 's/^#\=[ ]?//' -e '/^#/d' | tac | compile_helpdocs
+}
+
 print_help()
 {
   local command="${1:-$COMMAND}"
@@ -34,9 +49,15 @@ print_help()
 
   run_docs()
   {
-    evaluate < <(tac "${LIB_PATH}/${command_map[$resolved_command]%\#*}" \
-      | sed -n '/^'${command_map[$resolved_command]#*\#}'()$/,/^$/p' \
-      | sed -e '1d' -e '$d' -re 's/^#\+[ ]?//' -e '/^#/d' | tac)
+    local src_file="${command_map[$resolved_command]%\#*}"
+    local src_func="${command_map[$resolved_command]#*\#}"
+    local docs="$(process_helpdocs "$resolved_command")"
+
+    ifverb info echo -e "\r"
+    log info -e "Docs[$(echo_coloured green "${src_file}#${src_func}")]:" \
+                "\n$(echo_coloured gray "${docs}" | sed 's/^/  /')"
+
+    evaluate < <(echo "$docs")
   }
 
   parse_options()
@@ -80,7 +101,7 @@ print_help()
       echo_coloured ${colours[arg]} "${args[$1]}"
       echo_coloured ${colours[arg]} "$([[ -n "${attributes[arg:$1:values]}" ]]; ifelse "=${attributes[arg:$1:values]}" " (${attributes[arg:$1:type]})")"
       [[ -n "${attributes[arg:$1:default]}" ]] && echo_coloured ${colours[arg]} " (Default: ${attributes[arg:$1:default]})"
-      echo -e "\n  ${attributes[arg:$1:descript]}"
+      echo -e "\n$(echo "${attributes[arg:$1:descript]}" | sed 's/^/  /')"
     fi
   }
 
@@ -89,7 +110,7 @@ print_help()
     echo_coloured ${colours[opt]} "-${opts[$1]}"
     echo_coloured ${colours[opt]} "$([[ -n "${attributes[opt:$1:values]}" ]]; ifelse "=${attributes[opt:$1:values]}" " (${attributes[opt:$1:type]})")"
     [[ -n "${attributes[opt:$1:default]}" ]] && echo_coloured ${colours[opt]} " (Default: ${attributes[opt:$1:default]})"
-    echo -e "\n  ${attributes[opt:$1:descript]}"
+    echo -e "\n$(echo "${attributes[opt:$1:descript]}" | sed 's/^/  /')"
     echo_coloured ${colours[aliases]} -e "  aliases: ${attributes[opt:$1:aliases]}\n"
   }
 
@@ -108,7 +129,7 @@ print_help()
     if [[ "$resolved_command" != "$command" ]]; then
       echo -e "\n  Alias for: $(echo_coloured "${colours[aliases]}" "${resolved_command}")"
     else
-      echo -e "\n  ${description}"
+      echo -e "\n$(echo "${description}" | sed 's/^/  /')"
     fi
   }
 

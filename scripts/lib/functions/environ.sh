@@ -4,10 +4,10 @@
 # Makes an .env.example given a list of modules.
 # Outputs the generated .env.example to stdout.
 #
-#+ set_description < <(
-#+   echo 'Makes an env example given a list of modules.')
-#+ set_argument rest modules 'String|Path' 'all builtin modules' < <(
-#+   echo 'Modules to include within the output.')
+#= DESCRIPTION
+#=    Makes an env example given a list of modules.
+#= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules' )
+#=    Modules to include within the output.
 #
 make_envexample()
 {
@@ -25,16 +25,16 @@ make_envexample()
 # Outputs the generated .env to stdout. Includes extras if
 # specified as true.
 #
-#+ set_description < <(
-#+   echo 'Evaluate the given an .env.example and list of `.env.vars`.')
-#+ set_argument 1 include-extras 'Boolean' < <(
-#+   echo 'Whether or not to include extra variables.')
-#+ set_argument 2 template-file 'String|Path' < <(
-#+   echo 'Env example file to be used as the template.')
-#+ set_argument 3 variable-files "List[String|Path], ':'-separated" < <(
-#+   echo 'Env variables file with the variables specific to the project.')
-#+ set_argument 4 environment-variables "List[String], ':'-separated" < <(
-#+   echo 'Environment variables to include during evaluation.')
+#= DESCRIPTION
+#=    Evaluate the given an .env.example and list of `.env.vars`.
+#= ARGUMENT( '1' 'include-extras' 'Boolean' )
+#=    Whether or not to include extra variables.
+#= ARGUMENT( '2' 'template-file' 'String|Path' )
+#=    Env example file to be used as the template.
+#= ARGUMENT( '3' 'variable-files' "List[String|Path], ':'-separated" )
+#=    Env variables file with the variables specific to the project.
+#= ARGUMENT( '4' 'environment-variables' "List[String], ':'-separated" )
+#=    Environment variables to include during evaluation.
 #
 make_env()
 {
@@ -120,12 +120,12 @@ make_env()
 # If project name is not given, defaults to basename of APPLICATION.
 # If no modules given, defaults to include all modules
 #
-#+ set_description < <(
-#+   echo 'Makes an env example given a list of modules.')
-#+ set_argument 1 project-name 'String' 'basename of APPLICATION' < <(
-#+   echo 'Sets the project name.')
-#+ set_argument rest modules 'String|Path' 'all builtin modules' < <(
-#+   echo 'Modules to include within the output.')
+#= DESCRIPTION
+#=    Makes an env example given a list of modules.
+#= ARGUMENT( '1' 'project-name' 'String' 'basename of APPLICATION' )
+#=    Sets the project name.
+#= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules' )
+#=    Modules to include within the output.
 #
 make_envvars()
 {

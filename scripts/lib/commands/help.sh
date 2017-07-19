@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #
-#+ set_description < <(
-#+   echo 'Shows help for the CLI.')
-#+ set_argument rest commands 'String' 'all' < <(
-#+   echo 'Commands and command groups.')
+#= DESCRIPTION
+#=    Shows help for the CLI.
+#= ARGUMENT( 'rest' 'commands' 'String' 'all' )
+#=    Commands and command groups.
 #
 on_help()
 {

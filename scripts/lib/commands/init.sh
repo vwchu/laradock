@@ -1,20 +1,22 @@
 #!/bin/bash
 
 #
-#+ set_description < <(
-#+   echo 'Initializes Laradock in existing laravel projects.')
-#+ set_argument 1 project-name 'String' 'basename of APPLICATION' < <(
-#+   echo 'Sets the project name.')
-#+ set_argument rest modules 'String|Path' 'all builtin modules' < <(
-#+   echo 'Modules to include within the output.')
-#+ set_option e 'Path' './.laradock.example' < <(
-#+   echo 'File path to sample Env example file to be generate.')
-#+ set_option E 'Path' './.laradock' < <(
-#+   echo 'File path to sample project-specific variables file to be generate.')
-#+ set_option O 'Path' './.env' < <(
-#+   echo 'Output Env file path to generate when the variables file is evaluated.')
-#+ set_option y < <(
-#+   echo 'Automatic yes to prompts. Assume "yes" as answer to all prompts and run non-interactively.')
+#= DESCRIPTION
+#=    Initializes Laradock in existing Laravel projects.
+#= ARGUMENT( '1' 'project-name' 'String' 'basename of APPLICATION'c)
+#=    Sets the project name.
+#= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules'c)
+#=    Modules to include within the output.
+#= OPTION( 'e' 'Path' './.laradock.example' )
+#=    File path to sample Env example file to be generate.
+#= OPTION( 'E' 'Path' './.laradock' )
+#=    File path to sample project-specific variables file to be generate.
+#= OPTION( 'O' 'Path' './.env' )
+#=    Output Env file path to generate when the
+#=    variables file is evaluated.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
 #
 on_init()
 {
