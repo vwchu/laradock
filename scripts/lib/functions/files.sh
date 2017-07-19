@@ -88,7 +88,7 @@ resolve_envvars_filepath()
 
 write_to_file()
 {
-  local response
+  local response ret
   local filepath="$1"
   local shortened=$(relative_filepath "$PWD" "$filepath")
 
@@ -103,5 +103,12 @@ write_to_file()
 
   $2 "${@:3}" > "$1"
   ifok "Generated: $shortened" "Failed to generate: $shortened"
-  return $?
+  ret=$?
+
+  ifverb info echo -e "\r"
+  log info -e "File[$(echo_coloured green "$1")]:" \
+              "\n$(echo_coloured yellow "Command: $2 ${@:3}" | sed 's/^/  /')" \
+              "\n$(echo_coloured gray "$(cat "$1")" | sed 's/^/    > /')"
+
+  return $ret
 }
