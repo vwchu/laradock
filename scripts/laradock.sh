@@ -36,6 +36,8 @@ source "$LIB_PATH/functions/strings.sh"
 #-----------------------------------------------------------
 
 source "$LIB_PATH/commands/init.sh"
+source "$LIB_PATH/commands/build.sh"
+source "$LIB_PATH/commands/dockercompose.sh"
 source "$LIB_PATH/commands/help.sh"
 
 #-----------------------------------------------------------

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+dockercompose()
+{
+  docker-compose $(list_dockercompose_files true "${MODULES[@]}") "$@"
+}
+
 #
 #= DESCRIPTION
 #=    List `docker-compose.yml` files required for the given modules.
