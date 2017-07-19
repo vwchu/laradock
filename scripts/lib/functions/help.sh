@@ -9,10 +9,10 @@ process_helpdocs()
 {
   local docs="$(tac "${LIB_PATH}/${command_map[$1]%\#*}" \
                     | sed -n '/^'${command_map[$1]#*\#}'()$/,/^$/p' \
-                    | sed -e '1d' -e '$d')"
+                    | sed -e '1d' -e '$d' | tac)"
   
-  echo "$docs" | sed -re 's/^#\+[ ]?//' -e '/^#/d' | tac
-  echo "$docs" | sed -re 's/^#\=[ ]?//' -e '/^#/d' | tac | compile_helpdocs
+  echo "$docs" | sed -re 's/^#\+[ ]?//' -e '/^#/d'
+  echo "$docs" | sed -re 's/^#\=[ ]?//' -e '/^#/d' | compile_helpdocs
 }
 
 print_help()
