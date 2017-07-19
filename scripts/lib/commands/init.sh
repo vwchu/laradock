@@ -20,11 +20,8 @@
 #
 on_init()
 {
-  local envexample_default="$PWD/.laradock.example"
-  local envvars_default="$PWD/.laradock"
-
-  local envexample="${options[e]:-$envexample_default}"
-  local envvars="${options[E]:-$envvars_default}"
+  local envexample="${options[e]:-$PWD/.laradock.example}"
+  local envvars="${options[E]:-$PWD/.laradock}"
   local output="${options[O]}"
   local project_name="${1:-$(basename "$PWD")}"
 
