@@ -4,3 +4,5 @@ build,commands/build.sh#on_build,:Dd:O:y,--docker-build:-D --docker-images:-d --
 dockercompose,commands/dockercompose.sh#on_dockercompose,:E:,--env:-E
 up,commands/dockercompose.sh#on_up,:E:,--env:-E
 down,commands/dockercompose.sh#on_down,:E:,--env:-E
+tty,commands/dockercompose.sh#on_tty,:E:,--env:-E
+ssh,[tty]
