@@ -11,12 +11,11 @@ env | sort
 
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
-    chmod +x scripts/laradock.sh
-    scripts/laradock.sh environvars:template | scripts/laradock.sh environvars:evaluate --template /dev/stdin --output .env
-    sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
-    sed -i -- 's/=false/=true/g' .env
-    cat .env
-    docker-compose $(scripts/laradock.sh dockercompose:args) build ${BUILD_SERVICE}
+    chmod +x ./laradock
+    VERBOSE=6 ./laradock init -y testbuild
+    sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" ./.laradock.example
+    sed -i -- 's/=false/=true/g' ./.laradock.example
+    VERBOSE=6 ./laradock build -y ${BUILD_SERVICE}
     docker images
 fi
 
