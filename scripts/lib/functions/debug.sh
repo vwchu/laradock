@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#
+#+ set_description < <(
+#+    echo 'Print table of modules within the system.'
+#+    echo -n "Fields: $(echo_coloured purple '`Name`'), "
+#+    echo -n "$(echo_coloured purple '`Install-Path`'), "
+#+    echo -n "$(echo_coloured purple '`Docker-Depends`'), "
+#+    echo -n "$(echo_coloured purple '`Env-Depends`').")
+#
 echo_modules_info()
 {
   local -a titles=(
@@ -22,6 +30,14 @@ echo_modules_info()
   print_table 'modules_iterator' "${titles[@]}"
 }
 
+#
+#+ set_description < <(
+#+    echo 'Print table of commands within the system.'
+#+    echo -n "Fields: $(echo_coloured purple '`Command`'), "
+#+    echo -n "$(echo_coloured purple '`Function`'), "
+#+    echo -n "$(echo_coloured purple '`Options`'), "
+#+    echo -n "$(echo_coloured purple '`Aliases`').")
+#
 echo_commands_info()
 {
   local -a titles=(
