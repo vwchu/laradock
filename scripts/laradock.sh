@@ -7,7 +7,7 @@ readonly LARADOCK_CLI="$(basename "$BASH_SOURCE")"
 readonly CLI_PATH="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
 readonly LARADOCK_INSTALL="$(readlink -f -- "$CLI_PATH/..")"
 readonly LIB_PATH="$CLI_PATH/lib"
-readonly CONFIG_PATH="$CLI_PATH/config"
+readonly CONFIG_PATH="$CLI_PATH/../config"
 
 source "$LIB_PATH/variables.sh"
 source "$LIB_PATH/startup.sh"
