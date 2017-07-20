@@ -4,7 +4,7 @@ services:
 
   ### Selenium Container
   selenium:
-    build: ./selenium
+    build: ${BUILD_ROOT}/selenium
     ports:
       - "${SELENIUM_PORT}:4444"
     volumes:

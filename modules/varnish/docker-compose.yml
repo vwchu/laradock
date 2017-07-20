@@ -4,7 +4,7 @@ services:
 
   ### Varnish Proxy 1
   proxy:
-    build: ./varnish
+    build: ${BUILD_ROOT}/varnish
     expose:
       - ${VARNISH_PORT}
     environment:
@@ -22,7 +22,7 @@ services:
 
   ### Varnish Proxy 2
   proxy2:
-    build: ./varnish
+    build: ${BUILD_ROOT}/varnish
     expose:
       - ${VARNISH_PORT}
     environment:

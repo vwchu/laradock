@@ -4,7 +4,7 @@ services:
 
   ### Jenkins
   jenkins:
-    build: ./jenkins
+    build: ${BUILD_ROOT}/jenkins
     environment:
       JAVA_OPTS: "-Djava.awt.headless=true"
     ports:

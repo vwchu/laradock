@@ -5,7 +5,7 @@ services:
   ### MSSQL Container
   mssql:
     build:
-      context: ./mssql
+      context: ${BUILD_ROOT}/mssql
     environment:
       - MSSQL_DATABASE=${MSSQL_DATABASE}
       - SA_PASSWORD=${MSSQL_PASSWORD}

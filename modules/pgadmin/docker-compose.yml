@@ -4,7 +4,7 @@ services:
 
   ### pgAdmin Container
   pgadmin:
-    build: ./pgadmin
+    build: ${BUILD_ROOT}/pgadmin
     ports:
       - "5050:5050"
     depends_on:

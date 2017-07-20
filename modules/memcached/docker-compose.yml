@@ -4,7 +4,7 @@ services:
 
   ### Memcached Container
   memcached:
-    build: ./memcached
+    build: ${BUILD_ROOT}/memcached
     volumes:
       - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
     ports:

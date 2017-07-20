@@ -4,7 +4,7 @@ services:
 
   ### MongoDB Container
   mongo:
-    build: ./mongo
+    build: ${BUILD_ROOT}/mongo
     ports:
       - "${MONGODB_PORT}:27017"
     volumes:

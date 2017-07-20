@@ -4,7 +4,7 @@ services:
 
   ### Caddy Server Container
   caddy:
-    build: ./caddy
+    build: ${BUILD_ROOT}/caddy
     volumes_from:
       - applications
     volumes:

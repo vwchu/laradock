@@ -4,7 +4,7 @@ services:
 
   ### ElasticSearch Container
   elasticsearch:
-    build: ./elasticsearch
+    build: ${BUILD_ROOT}/elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
       - elasticsearch-plugins:/usr/share/elasticsearch/plugins

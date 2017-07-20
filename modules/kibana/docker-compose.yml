@@ -4,7 +4,7 @@ services:
 
   ### Kibana Container
   kibana:
-    build: ./kibana
+    build: ${BUILD_ROOT}/kibana
     ports:
       - "${KIBANA_HTTP_PORT}:5601"
     depends_on:

@@ -5,7 +5,7 @@ services:
   ### Percona Container
   percona:
     build:
-      context: ./percona
+      context: ${BUILD_ROOT}/percona
     environment:
       - MYSQL_DATABASE=${PERCONA_DATABASE}
       - MYSQL_USER=${PERCONA_USER}

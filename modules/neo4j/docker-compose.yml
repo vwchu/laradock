@@ -4,7 +4,7 @@ services:
 
   ### Neo4j Container
   neo4j:
-    build: ./neo4j
+    build: ${BUILD_ROOT}/neo4j
     ports:
       - "7474:7474"
       - "1337:1337"

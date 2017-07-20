@@ -4,7 +4,7 @@ services:
 
   ### Beanstalkd Console Container
   beanstalkd-console:
-    build: ./beanstalkd-console
+    build: ${BUILD_ROOT}/beanstalkd-console
     ports:
       - "2080:2080"
     depends_on:

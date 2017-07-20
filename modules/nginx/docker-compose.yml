@@ -5,7 +5,7 @@ services:
   ### Nginx Server Container
   nginx:
     build:
-      context: ./nginx
+      context: ${BUILD_ROOT}/nginx
       args:
         - PHP_UPSTREAM=php-fpm
     volumes_from:

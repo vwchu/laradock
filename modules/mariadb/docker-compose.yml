@@ -4,7 +4,7 @@ services:
 
   ### MariaDB Container
   mariadb:
-    build: ./mariadb
+    build: ${BUILD_ROOT}/mariadb
     volumes:
       - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
       - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d

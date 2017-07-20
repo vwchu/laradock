@@ -5,7 +5,7 @@ services:
   ### Certbot Container
   certbot:
     build:
-      context: ./certbot
+      context: ${BUILD_ROOT}/certbot
     volumes:
       - ./data/certbot/certs/:/var/certs
       - ./certbot/letsencrypt/:/var/www/letsencrypt

@@ -4,7 +4,7 @@ services:
 
   ### Aerospike Container
   aerospike:
-    build: ./aerospike
+    build: ${BUILD_ROOT}/aerospike
     volumes_from:
       - workspace
     volumes:

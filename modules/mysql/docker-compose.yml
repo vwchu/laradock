@@ -5,7 +5,7 @@ services:
   ### MySQL Container
   mysql:
     build:
-      context: ./mysql
+      context: ${BUILD_ROOT}/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}

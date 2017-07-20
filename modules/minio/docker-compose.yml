@@ -4,7 +4,7 @@ services:
 
   ### Minio Container
   minio:
-    build: ./minio
+    build: ${BUILD_ROOT}/minio
     volumes:
       - minio:/export
     ports:

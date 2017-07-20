@@ -5,7 +5,7 @@ services:
   ### PHP-FPM Container
   php-fpm:
     build:
-      context: ./php-fpm
+      context: ${BUILD_ROOT}/php-fpm
       args:
         - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
         - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}

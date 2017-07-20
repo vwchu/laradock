@@ -4,7 +4,7 @@ services:
 
   ### Redis Container
   redis:
-    build: ./redis
+    build: ${BUILD_ROOT}/redis
     volumes:
       - ${DATA_SAVE_PATH}/redis:/data
     ports:

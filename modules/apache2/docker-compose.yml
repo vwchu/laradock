@@ -5,7 +5,7 @@ services:
   ### Apache Server Container
   apache2:
     build:
-      context: ./apache2
+      context: ${BUILD_ROOT}/apache2
       args:
         - PHP_SOCKET=${PHP_SOCKET}
     volumes_from:

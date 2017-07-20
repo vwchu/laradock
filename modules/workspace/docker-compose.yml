@@ -5,7 +5,7 @@ services:
   ### Workspace Utilities Container
   workspace:
     build:
-      context: ./workspace
+      context: ${BUILD_ROOT}/workspace
       args:
         - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
         - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}

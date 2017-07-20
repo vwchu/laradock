@@ -5,7 +5,7 @@ services:
   ### Adminer Container
   adminer:
     build:
-      context: ./adminer
+      context: ${BUILD_ROOT}/adminer
       args:
         - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
     ports:
