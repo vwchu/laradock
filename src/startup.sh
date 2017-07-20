@@ -16,6 +16,11 @@ mkloader()
   echo -n 'print "'$load_func'";}'
 }
 
+read_config()
+{
+  cat "$1" | grep -Ev '^#' | grep -Ev '^[ ]*$' | awk -F "$2" "$3"
+}
+
 load_modules()
 {
   local name path docker_depends env_depends
@@ -29,7 +34,7 @@ load_modules()
     module_env_dependencies["$name"]="${env_depends:-$docker_depends}"
   }
 
-  evaluate < <(cat "$1" | awk -F ',' "$loader")
+  evaluate < <(read_config "$1" ',' "$loader")
 }
 
 load_commands()
@@ -49,7 +54,7 @@ load_commands()
     fi
   }
 
-  evaluate < <(cat "$1" | awk -F ',' "$loader")
+  evaluate < <(read_config "$1" ',' "$loader")
 }
 
 boot()
