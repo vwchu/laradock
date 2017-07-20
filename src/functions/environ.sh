@@ -165,7 +165,7 @@ make_envvars()
 {
   local template_path="$CONFIG_PATH/templates/envvars"
   local project_name="${1:-$(basename "$PWD")}"
-  local -a included=("${@:2}")
+  local -a included=($(resolve_docker_dependencies "${@:2}"))
   local -A variables=( )
 
   make_template()
