@@ -18,7 +18,7 @@ print_table()
   {
     local i
     for ((i = 1; i <= $#; i++)); do
-      update_field $i "$(echo 'echo $'$i | evaluate)"
+      update_field $i "$(echo 'echo $'$i | source /dev/stdin)" # do not change
     done
   }
 
