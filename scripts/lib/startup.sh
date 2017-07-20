@@ -29,7 +29,7 @@ load_modules()
     module_env_dependencies["$name"]="${env_depends:-$docker_depends}"
   }
 
-  source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
+  evaluate < <(cat "$1" | awk -F ',' "$loader")
 }
 
 load_commands()
@@ -49,7 +49,7 @@ load_commands()
     fi
   }
 
-  source /dev/stdin < <(cat "$1" | awk -F ',' "$loader")
+  evaluate < <(cat "$1" | awk -F ',' "$loader")
 }
 
 boot()
