@@ -5,9 +5,9 @@
 #=    Generate the necessary `.env` file to run docker-compose
 #= ARGUMENT( 'rest' 'images' 'String' 'all included images' )
 #=    Automatic run `docker-compose build` on the listed of Docker images.
-#= OPTION( 'e' 'template-file' 'String|Path' './.laradock.example')
+#= OPTION( 'e' 'String|Path' './.laradock.example')
 #=    Env example file to be used as the template.
-#= OPTION( 'E' 'variable-file' 'String|Path' './.laradock')
+#= OPTION( 'E' 'String|Path' './.laradock')
 #=    Env variables file with the variables specific to the project.
 #= OPTION( 'O' 'Path' './.env' )
 #=    Output Env file path to be generate.
