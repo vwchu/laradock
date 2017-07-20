@@ -46,7 +46,6 @@ make_envexample()
 
   echo_header "General Setup"
   noheader=true echo_envexample ""
-  noheader=true echo_envexample "misc"
   echo_header "Containers Customization"
   echo_envexample ${included[@]:-${modules[@]}}
 }
