@@ -11,11 +11,12 @@
 #
 on_install()
 {
-  local target="${1:-$PWD/laradock}"
+  local source="$CLI_PATH/$LARADOCK_CLI"
+  local target="$(readlink -f -- "${1:-$PWD/laradock}")"
 
   NOTTY="${options[y]}"
 
-  write_to_file "$target" make_linked_script "$CLI_PATH/$LARADOCK_CLI"
+  write_to_file "$target" make_linked_script "$target" "$source"
   if [[ $? -eq 0 ]]; then
     chmod +x "$target"
   fi

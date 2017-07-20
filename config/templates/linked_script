@@ -8,10 +8,14 @@ case $(uname) in
   *CYGWIN*) BASEDIR=$(cygpath -w "$BASEDIR");;
 esac
 
+if [ -f "$BASEDIR/$SCRIPT" ]; then
+  SCRIPT="$BASEDIR/$SCRIPT"
+fi
+
 if [ -x "$BASEDIR/$BASHBIN" ]; then
-  "$BASEDIR/$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
+  "$BASEDIR/$BASHBIN" "$SCRIPT" "$@"; RET=$?
 else 
-  "$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
+  "$BASHBIN" "$SCRIPT" "$@"; RET=$?
 fi
 
 exit $RET
