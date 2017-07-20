@@ -7,7 +7,7 @@ declare -a modules=( )
 # Mapping between all of the registered modules
 # and its installation path in the filesystem.
 # Loaded from `modules/*`.
-declare -A module_path=( )
+declare -A module_paths=( )
 
 # Mapping between all of the registered modules
 # and its docker-compose dependencies (comma-separated list).

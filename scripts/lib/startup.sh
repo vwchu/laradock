@@ -24,7 +24,7 @@ load_modules()
   load_module()
   {
     modules+=("$name")
-    module_path["$name"]="$path"
+    module_paths["$name"]="$path"
     module_docker_dependencies["$name"]="$docker_depends"
     module_env_dependencies["$name"]="${env_depends:-$docker_depends}"
   }

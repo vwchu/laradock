@@ -21,7 +21,7 @@ echo_modules_info()
   {
     for module in "${modules[@]}"; do
       "$1" "${module:--}" \
-           "${module_path[$module]:--}" \
+           "${module_paths[$module]:--}" \
            "${module_docker_dependencies[$module]:--}" \
            "${module_env_dependencies[$module]:--}"
     done
