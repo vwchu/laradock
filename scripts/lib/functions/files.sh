@@ -64,20 +64,22 @@ resolve_filepath()
 resolve_dockercompose_filepath()
 {
   local root="$LARADOCK_INSTALL"
+  local modroot="$root/modules"
   if [[ "$1" == /* ]]; then
     resolve_filepath "$1" 'docker-compose.yml' %s/docker-compose.yml %s.yml
   else
-    resolve_filepath "$1" 'docker-compose.yml' {$root/%s,%s}/docker-compose.yml %s.yml
+    resolve_filepath "$1" 'docker-compose.yml' {$root/%s,$modroot/%s,%s}/docker-compose.yml %s.yml
   fi
 }
 
 resolve_envexample_filepath()
 {
   local root="$LARADOCK_INSTALL"
+  local modroot="$root/modules"
   if [[ "$1" == /* ]]; then
     resolve_filepath "$1" '.env.example' %s{/,}{.env,.laradock}.example %s
   else
-    resolve_filepath "$1" '.env.example' {$root/%s,%s}{/,}{.env,.laradock}.example %s
+    resolve_filepath "$1" '.env.example' {$root/%s,$modroot/%s,%s}{/,}{.env,.laradock}.example %s
   fi
 }
 
