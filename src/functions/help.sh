@@ -2,12 +2,12 @@
 
 compile_helpdocs()
 {
-  cat | awk -f "${LIB_PATH}/functions/help-compile.awk"
+  cat | awk -f "${SRC_PATH}/functions/help-compile.awk"
 }
 
 process_helpdocs()
 {
-  local docs="$(tac "${LIB_PATH}/${command_map[$1]%\#*}" \
+  local docs="$(tac "${SRC_PATH}/${command_map[$1]%\#*}" \
                     | sed -n '/^'${command_map[$1]#*\#}'()$/,/^$/p' \
                     | sed -e '1d' -e '$d' | tac)"
   

@@ -1,17 +1,55 @@
-#!/bin/sh
+#!/bin/bash
+#
+# Laradock Shell CLI
+#
 
-BASEDIR=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
-SCRIPT="./src/laradock.sh"
-BASHBIN="/bin/bash"
+readonly LARADOCK_CLI="$(basename "$BASH_SOURCE")"
+readonly CLI_PATH="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
+readonly MODULES_PATH="$CLI_PATH/modules"
+readonly SRC_PATH="$CLI_PATH/src"
+readonly CONFIG_PATH="$CLI_PATH/config"
 
-case $(uname) in
-  *CYGWIN*) BASEDIR=$(cygpath -w "$BASEDIR");;
-esac
+source "$SRC_PATH/variables.sh"
+source "$SRC_PATH/startup.sh"
 
-if [ -x "$BASEDIR/$BASHBIN" ]; then
-  "$BASEDIR/$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
-else 
-  "$BASHBIN" "$BASEDIR/$SCRIPT" "$@"; RET=$?
-fi
+#-----------------------------------------------------------
+# Include Functions
+#-----------------------------------------------------------
 
-exit $RET
+source "$SRC_PATH/functions/debug.sh"
+source "$SRC_PATH/functions/depends.sh"
+source "$SRC_PATH/functions/dockercompose.sh"
+source "$SRC_PATH/functions/environ.sh"
+source "$SRC_PATH/functions/files.sh"
+source "$SRC_PATH/functions/help.sh"
+source "$SRC_PATH/functions/helpers.sh"
+source "$SRC_PATH/functions/input.sh"
+source "$SRC_PATH/functions/logs.sh"
+source "$SRC_PATH/functions/output-environ.sh"
+source "$SRC_PATH/functions/output-styled.sh"
+source "$SRC_PATH/functions/output-tabular.sh"
+source "$SRC_PATH/functions/run.sh"
+source "$SRC_PATH/functions/strings.sh"
+
+#-----------------------------------------------------------
+# Include Commands
+#-----------------------------------------------------------
+
+source "$SRC_PATH/commands/build.sh"
+source "$SRC_PATH/commands/dockercompose.sh"
+source "$SRC_PATH/commands/help.sh"
+source "$SRC_PATH/commands/init.sh"
+source "$SRC_PATH/commands/install.sh"
+
+#-----------------------------------------------------------
+# Main
+#-----------------------------------------------------------
+
+main()
+{
+  boot
+  process_arguments "$@"
+  run_command
+}
+
+main "$@"
