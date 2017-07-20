@@ -164,7 +164,7 @@ make_env()
 #
 make_envvars()
 {
-  local template_path="$DATA_PATH/templates/envvars"
+  local template_path="$CONFIG_PATH/templates/envvars"
   local project_name="${1:-$(basename "$PWD")}"
   local -a included=("${@:2}")
   local -A variables=( )

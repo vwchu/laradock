@@ -100,7 +100,7 @@ os_type()
 
 make_linked_script()
 {
-  local script_template="$DATA_PATH/templates/linked_script"
+  local script_template="$CONFIG_PATH/templates/linked_script"
   local source_path="$(readlink -f -- "$1")"
 
   cat "$script_template" | sed -re 's|[$]SOURCE|'"$source_path"'|g'
