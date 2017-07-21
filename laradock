@@ -39,7 +39,7 @@ source "$SRC_PATH/commands/build.sh"
 source "$SRC_PATH/commands/dockercompose.sh"
 source "$SRC_PATH/commands/help.sh"
 source "$SRC_PATH/commands/init.sh"
-source "$SRC_PATH/commands/install.sh"
+source "$SRC_PATH/commands/linkcli.sh"
 
 #-----------------------------------------------------------
 # Main
