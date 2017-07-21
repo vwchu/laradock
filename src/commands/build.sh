@@ -2,7 +2,7 @@
 
 #
 #= DESCRIPTION
-#=    Generate the necessary `.env` file to run docker-compose
+#=    Generate the necessary `.env` file to run docker-compose.
 #= ARGUMENT( 'rest' 'images' 'String' 'all included images' )
 #=    Automatic run `docker-compose build` on the listed of Docker images.
 #= OPTION( 'e' 'String|Path' './.laradock.example')

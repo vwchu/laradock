@@ -3,9 +3,6 @@ dockercompose,commands/dockercompose.sh#on_dockercompose,:E:,--env:-E
 down,commands/dockercompose.sh#on_down,:E:,--env:-E
 help,commands/help.sh#on_help
 init,commands/init.sh#on_init,:e:E:O:y,--env-example:-e --envvars:-E --output:-O --env:-O --yes:-y
-install,commands/install.sh#on_install,:y,--yes:-y
+linkcli,commands/install.sh#on_linkcli,:y,--yes:-y
 tty,commands/dockercompose.sh#on_tty,:E:,--env:-E
 up,commands/dockercompose.sh#on_up,:E:,--env:-E
-
-## Aliases
-ssh,[tty]

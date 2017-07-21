@@ -2,7 +2,7 @@
 
 #
 #= DESCRIPTION
-#=    Initializes Laradock in existing Laravel projects.
+#=    Initializes Laradock into existing projects.
 #= ARGUMENT( '1' 'project-name' 'String' 'basename of APPLICATION' )
 #=    Sets the project name.
 #= ARGUMENT( 'rest' 'modules' 'String|Path' 'all builtin modules' )
