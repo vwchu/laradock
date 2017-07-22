@@ -197,7 +197,7 @@ make_envvars()
 
   output_hints()
   {
-    local -a keywords=( port user username password database name path ip id token )
+    local -a keywords=( port user username password database name path ip id token tag )
 
     {
       echo 'Here are some common variables to customize' | prepend_empty_line
