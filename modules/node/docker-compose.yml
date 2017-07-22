@@ -1,0 +1,33 @@
+version: '2.2'
+
+services:
+
+  ### Node Container
+  node:
+    image: laradock/node:local.${NODE_TAG}
+    build: 
+      context: ${BUILD_ROOT}/node
+      args:
+        - "NODE_VERSION=${NODE_VERSION}"
+        - "NPM_GLOBALS=${NODE_NPM_GLOBALS}"
+        - "INSTALL_YARN=${NODE_INSTALL_YARN}"
+        - "YARN_VERSION=${NODE_YARN_VERSION}"
+    tty: true
+    restart: "always"
+    user: node
+    working_dir: /home/node/app
+    entrypoint: /home/node/bin/entrypoint.sh
+    command: "${NODE_START_COMMAND}"
+    environment:
+      - "NODE_ENV=${NODE_ENV}"
+      - "NPM_NO_BIN_LINKS=${NODE_NPM_NO_BIN_LINKS}"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    ports:
+      - "${NODE_PORT}"
+    volumes:
+      - "${NODE_APP_PATH}:/home/node/app"
+      - "${NODE_ENTRYPOINT_PATH}:/home/node/bin/entrypoint.sh"
+    networks:
+      - frontend
+      - backend

@@ -34,3 +34,4 @@ varnish,./varnish,
 haproxy,./haproxy,varnish
 jenkins,./jenkins,
 laravel-echo-server,./laravel-echo-server,redis
+node,./node,

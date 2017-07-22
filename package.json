@@ -1,8 +1,9 @@
 {
   "name": "laradock",
-  "version": "6.1.0",
+  "version": "7.0.0-alpha.1",
   "description": "A Docker PHP development environment.",
   "homepage": "http://laradock.io",
+  "bin": "laradock",
   "license": "MIT",
   "keywords": [
     "docker",
@@ -11,6 +12,5 @@
     "docker-containers",
     "php",
     "php-container"
-  ],
-  "bin": "laradock"
+  ]
 }
