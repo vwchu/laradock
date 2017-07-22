@@ -12,8 +12,8 @@
 on_dockercompose()
 {
   local -A variables=( )
-  local environ="${1:-$PWD/.env}"
-  
+  local environ="${options[E]:-$PWD/.env}"
+
   evaluate < <(cat "$environ" | to_load_script variables) 
   
   MODULES="${variables[MODULES]}"
