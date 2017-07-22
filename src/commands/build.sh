@@ -13,6 +13,10 @@
 #=    Output Env file path to be generate.
 #= OPTION( 'd' 'Boolean' 'false' )
 #=    Skip `docker-compose build`.
+#= OPTION( 'M' 'Boolean' 'false' )
+#=    Generate single `docker-compose.yml` file.
+#= OPTION( 'D' 'Path' './docker-compose.yml' )
+#=    Output docker-compose file path if `-M` option enabled.
 #= OPTION( 'y' )
 #=    Automatic yes to prompts. Assume "yes" as answer to
 #=    all prompts and run non-interactively.
@@ -22,6 +26,7 @@ on_build()
   local -A variables=( )
   local envexample="${options[e]:-$PWD/.laradock.example}"
   local envvars="${options[E]:-$PWD/.laradock}"
+  local composefile="${options[D]-$PWD/docker-compose.yml}"
   local output="${options[O]}"
 
   evaluate < <(cat "$envvars" | to_load_script variables) 
@@ -34,6 +39,10 @@ on_build()
   output="${output:-$PWD/.env}"
 
   write_to_file "$output" make_env "$envexample" "$envvars" true true
+
+  if [[ "${options[M]:-false}" == true ]]; then
+    write_to_file "$composefile" dockercompose config
+  fi
 
   if [[ "${options[d]:-false}" == false ]]; then
     dockercompose build ${@}

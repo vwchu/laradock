@@ -1,4 +1,4 @@
-build,commands/build.sh#on_build,:e:E:O:yd,--env-example:-e --envvars:-E --output:-O --env:-O --yes:-y --skip-dockerbuild:-d
+build,commands/build.sh#on_build,:e:E:O:ydMD:,--env-example:-e --envvars:-E --output:-O --env:-O --yes:-y --skip-dockerbuild:-d --make-dockercompose:-M --dockercompose:-D
 dockercompose,commands/dockercompose.sh#on_dockercompose,:E:,--env:-E
 down,commands/dockercompose.sh#on_down,:E:,--env:-E
 help,commands/help.sh#on_help
