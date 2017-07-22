@@ -4,6 +4,7 @@ services:
 
   ### Nginx Server Container
   nginx:
+    image: laradock/nginx:local.${NGINX_TAG}
     build:
       context: ${BUILD_ROOT}/nginx
       args:

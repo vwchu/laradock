@@ -4,6 +4,7 @@ services:
 
   ### Neo4j Container
   neo4j:
+    image: laradock/neo4j:local.${NEO4J_TAG}
     build: ${BUILD_ROOT}/neo4j
     ports:
       - "7474:7474"

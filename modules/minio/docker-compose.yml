@@ -4,6 +4,7 @@ services:
 
   ### Minio Container
   minio:
+    image: laradock/minio:local.${MINIO_TAG}
     build: ${BUILD_ROOT}/minio
     volumes:
       - minio:/export

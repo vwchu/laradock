@@ -4,6 +4,7 @@ services:
 
   ### Balancer Haproxy
   balancer:
+    image: laradock/haproxy:local.${HAPROXY_TAG}
     build: ${BUILD_ROOT}/haproxy
     ports:
       - "${HAPROXY_HOST_HTTP_PORT}:8085"

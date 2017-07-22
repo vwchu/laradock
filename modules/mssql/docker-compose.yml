@@ -4,6 +4,7 @@ services:
 
   ### MSSQL Container
   mssql:
+    image: laradock/mssql:local.${MSSQL_TAG}
     build:
       context: ${BUILD_ROOT}/mssql
     environment:

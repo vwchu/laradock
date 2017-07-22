@@ -4,6 +4,7 @@ services:
 
   ### phpMyAdmin Container
   phpmyadmin:
+    image: laradock/phpmyadmin:local.${PMA_TAG}
     build: ${BUILD_ROOT}/phpmyadmin
     environment:
       - PMA_ARBITRARY=1

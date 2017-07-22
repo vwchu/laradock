@@ -4,6 +4,7 @@ services:
 
   ### Certbot Container
   certbot:
+    image: laradock/certbot:local.${CERTBOT_TAG}
     build:
       context: ${BUILD_ROOT}/certbot
     volumes:

@@ -4,6 +4,7 @@ services:
 
   ### PHP Worker Container
   php-worker:
+    image: laradock/php-worker:local.${PHP_WORKER_TAG}
     build:
       context: ${BUILD_ROOT}/php-worker
     volumes_from:

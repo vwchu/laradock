@@ -4,6 +4,7 @@ services:
 
   ### RabbitMQ Container
   rabbitmq:
+    image: laradock/rabbitmq:local.${RABBITMQ_TAG}
     build: ${BUILD_ROOT}/rabbitmq
     ports:
       - "${RABBITMQ_NODE_HOST_PORT}:5672"

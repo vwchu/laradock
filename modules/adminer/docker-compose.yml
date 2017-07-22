@@ -4,6 +4,7 @@ services:
 
   ### Adminer Container
   adminer:
+    image: laradock/adminer:local.${ADM_TAG}
     build:
       context: ${BUILD_ROOT}/adminer
       args:

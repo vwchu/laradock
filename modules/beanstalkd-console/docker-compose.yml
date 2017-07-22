@@ -4,6 +4,7 @@ services:
 
   ### Beanstalkd Console Container
   beanstalkd-console:
+    image: laradock/beanstalkd-console:local.${BEANSTALKD_CONSOLE_TAG}
     build: ${BUILD_ROOT}/beanstalkd-console
     ports:
       - "2080:2080"

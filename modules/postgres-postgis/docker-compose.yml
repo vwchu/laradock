@@ -4,6 +4,7 @@ services:
 
   ### PostgreSQL PostGis Container
   postgres-postgis:
+    image: laradock/postgres-postgis:local.${POSTGRES_POSTGIS_TAG}
     build: ${BUILD_ROOT}/postgres-postgis
     volumes:
       - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data

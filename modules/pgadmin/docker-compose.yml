@@ -4,6 +4,7 @@ services:
 
   ### pgAdmin Container
   pgadmin:
+    image: laradock/pgadmin:local.${PGADMIN_TAG}
     build: ${BUILD_ROOT}/pgadmin
     ports:
       - "5050:5050"

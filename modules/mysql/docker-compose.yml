@@ -4,6 +4,7 @@ services:
 
   ### MySQL Container
   mysql:
+    image: laradock/mysql:local.${MYSQL_TAG}
     build:
       context: ${BUILD_ROOT}/mysql
     environment:

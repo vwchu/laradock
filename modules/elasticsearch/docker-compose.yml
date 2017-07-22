@@ -4,6 +4,7 @@ services:
 
   ### ElasticSearch Container
   elasticsearch:
+    image: laradock/elasticsearch:local.${ELASTICSEARCH_TAG}
     build: ${BUILD_ROOT}/elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data

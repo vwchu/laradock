@@ -4,6 +4,7 @@ services:
 
   ### MariaDB Container
   mariadb:
+    image: laradock/mariadb:local.${MARIADB_TAG}
     build: ${BUILD_ROOT}/mariadb
     volumes:
       - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql

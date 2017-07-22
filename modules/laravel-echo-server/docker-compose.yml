@@ -4,6 +4,7 @@ services:
 
   ### Laravel Echo Server
   laravel-echo-server:
+    image: laradock/laravel-echo-server:local.${LARAVEL_ECHO_SERVER_TAG}
     build:
       context: ${BUILD_ROOT}/laravel-echo-server
     volumes:

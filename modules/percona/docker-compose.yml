@@ -4,6 +4,7 @@ services:
 
   ### Percona Container
   percona:
+    image: laradock/percona:local.${PERCONA_TAG}
     build:
       context: ${BUILD_ROOT}/percona
     environment:

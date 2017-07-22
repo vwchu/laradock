@@ -4,6 +4,7 @@ services:
 
   ### Apache Server Container
   apache2:
+    image: laradock/apache2:local.${APACHE_TAG}
     build:
       context: ${BUILD_ROOT}/apache2
       args:

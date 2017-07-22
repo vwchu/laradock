@@ -4,6 +4,7 @@ services:
 
   ### PHP-FPM Container
   php-fpm:
+    image: laradock/php-fpm:local.${PHP_VERSION}.${PHP_FPM_TAG}
     build:
       context: ${BUILD_ROOT}/php-fpm
       args:
