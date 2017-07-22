@@ -2,7 +2,16 @@
 
 to_load_script()
 {
-  sed -re 's/^([^#=]*)=(.*)$/'$1'[\1]="\2"/'
+  local vars_regex='([A-Za-z0-9_]+)'
+
+  awk -F '=' '/^.*=/ { 
+    key = "'$1'[" $1 "]";
+    value = substr($0, index($0, "=") + 1);
+    value = gensub(/\$\{'$vars_regex'([:]?-.+)\}/, "${'$1'[\\1]'$2'}", "g", value);
+    value = gensub(/\$\{'$vars_regex'\}/, "${'$1'[\\1]}", "g", value);
+    value = gensub(/\$'$vars_regex'/, "${'$1'[\\1]}", "g", value);
+    print key "=\"" value "\"";
+  }'
 }
 
 to_output_script()
