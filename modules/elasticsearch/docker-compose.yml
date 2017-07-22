@@ -7,10 +7,10 @@ services:
     image: laradock/elasticsearch:local.${ELASTICSEARCH_TAG}
     build: ${BUILD_ROOT}/elasticsearch
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-      - elasticsearch-plugins:/usr/share/elasticsearch/plugins
+      - ${ELASTICSEARCH_DATA_PATH}:/usr/share/elasticsearch/data
+      - ${ELASTICSEARCH_PLUGINS_PATH}:/usr/share/elasticsearch/plugins
     environment:
-      - cluster.name=laradock-cluster
+      - cluster.name=${ELASTICSEARCH_CLUSTER_NAME}
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
     ulimits:

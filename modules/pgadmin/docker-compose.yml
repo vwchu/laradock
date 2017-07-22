@@ -7,7 +7,7 @@ services:
     image: laradock/pgadmin:local.${PGADMIN_TAG}
     build: ${BUILD_ROOT}/pgadmin
     ports:
-      - "5050:5050"
+      - "${PGADMIN_HOST_PORT}:5050"
     depends_on:
       - postgres
     networks:

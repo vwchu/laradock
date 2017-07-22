@@ -8,10 +8,10 @@ services:
     build:
       context: ${BUILD_ROOT}/certbot
     volumes:
-      - ./data/certbot/certs/:/var/certs
-      - ./certbot/letsencrypt/:/var/www/letsencrypt
+      - ${CERTBOT_CERTS_PATH}:/var/certs
+      - ${CERTBOT_LETSENCRYPT_PATH}:/var/www/letsencrypt
     environment:
-      - CN="fake.domain.com"
-      - EMAIL="fake.email@gmail.com"
+      - CN="${CERTBOT_DOMAIN}"
+      - EMAIL="${CERTBOT_EMAIL}"
     networks:
       - frontend
