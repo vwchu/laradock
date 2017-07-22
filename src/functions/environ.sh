@@ -4,23 +4,28 @@ to_load_script()
 {
   local vars_regex='([A-Za-z0-9_]+)'
 
-  awk -F '=' '/^.*=/ { 
+  awk -F '=' '/^[^#=]*=/ { 
     key = "'$1'[" $1 "]";
     value = substr($0, index($0, "=") + 1);
     value = gensub(/\$\{'$vars_regex'([:]?-.+)\}/, "${'$1'[\\1]'$2'}", "g", value);
     value = gensub(/\$\{'$vars_regex'\}/, "${'$1'[\\1]}", "g", value);
     value = gensub(/\$'$vars_regex'/, "${'$1'[\\1]}", "g", value);
-    print key "=\"" value "\"";
+    print key "='\''" value "'\''";
   }'
 }
 
 to_output_script()
 {
   sed -re 's/^([^#=]*)=.*$/\1=$\{'$1'[\1]\}/' \
-        -e 's/`/\\`/g' \
-        -e '/^#/ s/\$/\\$/g' \
-        -e '1 i\cat - <<EOF' \
-        -e '$ a\EOF'
+       -e 's/`/\\`/g' \
+       -e '/^#/ s/\$/\\$/g' \
+       -e '1 i\cat - <<EOF' \
+       -e '$ a\EOF'
+}
+
+get_variables()
+{
+  cat - | grep -E '^[^#]' | sed -re 's/^([^#=]*)=.*$/\1/'
 }
 
 get_value_by_key()
@@ -97,6 +102,15 @@ make_env()
     done
   }
 
+  evaluate_variables()
+  {
+    local vars
+
+    for var in $@; do
+      variables[$var]="$(echo "echo -n \"${variables[$var]}\"" | evaluate)"
+    done
+  }
+
   find_extras()
   {
     local var
@@ -128,6 +142,8 @@ make_env()
 
       extras="$([[ $include_extras == true ]] && (echo "$envvars" | extras_envvars))"
       extras="$([[ -n "$extras" ]] && (echo_header "Extras" | prepend_empty_line; echo "$extras"))"
+
+      evaluate_variables "$(echo "$envexample$extras" | get_variables)"
 
       (echo "$envexample$extras") | to_output_script variables | evaluate
     })
