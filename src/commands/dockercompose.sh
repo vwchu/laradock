@@ -14,6 +14,8 @@ on_dockercompose()
   local -A variables=( )
   local environ="${options[E]:-$PWD/.env}"
 
+  [[ -e "$environ" ]]; assert "Cannot find: $environ"
+
   evaluate < <(cat "$environ" | to_load_script variables) 
   
   MODULES="${variables[MODULES]}"
