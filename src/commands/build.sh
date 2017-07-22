@@ -29,6 +29,9 @@ on_build()
   local composefile="${options[D]-$PWD/docker-compose.yml}"
   local output="${options[O]}"
 
+  [[ -e "$envexample" ]]; assert "Cannot find: $envexample"
+  [[ -e "$envvars" ]]; assert "Cannot find: $envvars"
+
   evaluate < <(cat "$envvars" | to_load_script variables) 
 
   NOTTY="${options[y]}"
