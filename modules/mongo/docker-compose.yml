@@ -5,7 +5,7 @@ services:
   ### MongoDB Container
   mongo:
     image: laradock/mongo:local.${MONGODB_TAG}
-    build: ${BUILD_ROOT}/mongo
+    build: ${MONGODB_BUILD_PATH}
     ports:
       - "${MONGODB_PORT}:27017"
     volumes:

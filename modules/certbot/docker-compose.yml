@@ -6,7 +6,7 @@ services:
   certbot:
     image: laradock/certbot:local.${CERTBOT_TAG}
     build:
-      context: ${BUILD_ROOT}/certbot
+      context: ${CERTBOT_BUILD_PATH}
     volumes:
       - ${CERTBOT_CERTS_PATH}:/var/certs
       - ${CERTBOT_LETSENCRYPT_PATH}:/var/www/letsencrypt

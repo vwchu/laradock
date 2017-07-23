@@ -6,7 +6,7 @@ services:
   php-fpm:
     image: laradock/php-fpm:local.${PHP_VERSION}.${PHP_FPM_TAG}
     build:
-      context: ${BUILD_ROOT}/php-fpm
+      context: ${PHP_FPM_BUILD_PATH}
       args:
         - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
         - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE:-false}

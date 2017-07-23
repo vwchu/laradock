@@ -6,7 +6,7 @@ services:
   percona:
     image: laradock/percona:local.${PERCONA_TAG}
     build:
-      context: ${BUILD_ROOT}/percona
+      context: ${PERCONA_BUILD_PATH}
     environment:
       - MYSQL_DATABASE=${PERCONA_DATABASE}
       - MYSQL_USER=${PERCONA_USER}

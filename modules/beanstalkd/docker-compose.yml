@@ -5,7 +5,7 @@ services:
   ### Beanstalkd Container
   beanstalkd:
     image: laradock/beanstalkd:local.${BEANSTALKD_TAG}
-    build: ${BUILD_ROOT}/beanstalkd
+    build: ${BEANSTALKD_BUILD_PATH}
     ports:
       - "${BEANSTALKD_HOST_PORT}:11300"
     privileged: true

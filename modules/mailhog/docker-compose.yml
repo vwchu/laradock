@@ -5,7 +5,7 @@ services:
   ### Mailhog Container
   mailhog:
     image: laradock/mailhog:local.${MAILHOG_TAG}
-    build: ${BUILD_ROOT}/mailhog
+    build: ${MAILHOG_BUILD_PATH}
     ports:
       - "${MAILHOG_SMTP_HOST_PORT}:1025"
       - "${MAILHOG_HTTP_HOST_PORT}:8025"

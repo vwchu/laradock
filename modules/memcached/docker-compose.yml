@@ -5,7 +5,7 @@ services:
   ### Memcached Container
   memcached:
     image: laradock/memcached:local.${MEMCACHED_TAG}
-    build: ${BUILD_ROOT}/memcached
+    build: ${MEMCACHED_BUILD_PATH}
     volumes:
       - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
     ports:

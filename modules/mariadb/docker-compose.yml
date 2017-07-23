@@ -5,7 +5,7 @@ services:
   ### MariaDB Container
   mariadb:
     image: laradock/mariadb:local.${MARIADB_TAG}
-    build: ${BUILD_ROOT}/mariadb
+    build: ${MARIADB_BUILD_PATH}
     volumes:
       - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
       - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d

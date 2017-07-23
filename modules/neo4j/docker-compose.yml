@@ -5,7 +5,7 @@ services:
   ### Neo4j Container
   neo4j:
     image: laradock/neo4j:local.${NEO4J_TAG}
-    build: ${BUILD_ROOT}/neo4j
+    build: ${NEO4J_BUILD_PATH}
     ports:
       - "${NEO4J_HTTP_HOST_PORT}:7474"
       - "${NEO4J_SHELL_HOST_PORT}:1337"

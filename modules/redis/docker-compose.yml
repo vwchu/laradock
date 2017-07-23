@@ -5,7 +5,7 @@ services:
   ### Redis Container
   redis:
     image: laradock/redis:local.${REDIS_TAG}
-    build: ${BUILD_ROOT}/redis
+    build: ${REDIS_BUILD_PATH}
     volumes:
       - ${DATA_SAVE_PATH}/redis:/data
     ports:

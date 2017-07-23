@@ -6,7 +6,7 @@ services:
   workspace:
     image: laradock/workspace:local.${PHP_VERSION}.${WORKSPACE_TAG}
     build:
-      context: ${BUILD_ROOT}/workspace
+      context: ${WORKSPACE_BUILD_PATH}
       args:
         - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
         - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE:-false}

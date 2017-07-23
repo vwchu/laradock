@@ -5,7 +5,7 @@ services:
   ### Caddy Server Container
   caddy:
     image: laradock/caddy:local.${CADDY_TAG}
-    build: ${BUILD_ROOT}/caddy
+    build: ${CADDY_BUILD_PATH}
     volumes_from:
       - applications
     volumes:

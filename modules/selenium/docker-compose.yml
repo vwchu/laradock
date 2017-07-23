@@ -5,7 +5,7 @@ services:
   ### Selenium Container
   selenium:
     image: laradock/selenium:local.${SELENIUM_TAG}
-    build: ${BUILD_ROOT}/selenium
+    build: ${SELENIUM_BUILD_PATH}
     ports:
       - "${SELENIUM_PORT}:4444"
     volumes:

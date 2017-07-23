@@ -6,7 +6,7 @@ services:
   mssql:
     image: laradock/mssql:local.${MSSQL_TAG}
     build:
-      context: ${BUILD_ROOT}/mssql
+      context: ${MSSQL_BUILD_PATH}
     environment:
       - MSSQL_DATABASE=${MSSQL_DATABASE}
       - SA_PASSWORD=${MSSQL_PASSWORD}

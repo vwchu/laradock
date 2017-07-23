@@ -6,7 +6,7 @@ services:
   laravel-echo-server:
     image: laradock/laravel-echo-server:local.${LARAVEL_ECHO_SERVER_TAG}
     build:
-      context: ${BUILD_ROOT}/laravel-echo-server
+      context: ${LARAVEL_ECHO_SERVER_BUILD_PATH}
     volumes:
       - ${LARAVEL_ECHO_SERVER_CONFIG_PATH}:/app/laravel-echo-server.json:ro
     ports:

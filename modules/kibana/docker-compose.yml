@@ -5,7 +5,7 @@ services:
   ### Kibana Container
   kibana:
     image: laradock/kibana:local.${KIBANA_TAG}
-    build: ${BUILD_ROOT}/kibana
+    build: ${KIBANA_BUILD_PATH}
     ports:
       - "${KIBANA_HTTP_PORT}:5601"
     depends_on:

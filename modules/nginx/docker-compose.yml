@@ -6,7 +6,7 @@ services:
   nginx:
     image: laradock/nginx:local.${NGINX_TAG}
     build:
-      context: ${BUILD_ROOT}/nginx
+      context: ${NGINX_BUILD_PATH}
       args:
         - PHP_UPSTREAM=php-fpm
     volumes_from:

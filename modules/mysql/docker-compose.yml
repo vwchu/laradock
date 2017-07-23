@@ -6,7 +6,7 @@ services:
   mysql:
     image: laradock/mysql:local.${MYSQL_TAG}
     build:
-      context: ${BUILD_ROOT}/mysql
+      context: ${MYSQL_BUILD_PATH}
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}

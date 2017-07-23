@@ -5,7 +5,7 @@ services:
   ### PostgreSQL Container
   postgres:
     image: laradock/postgres:local.${POSTGRES_TAG}
-    build: ${BUILD_ROOT}/postgres
+    build: ${POSTGRES_BUILD_PATH}
     volumes:
       - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
     ports:

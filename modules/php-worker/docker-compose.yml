@@ -6,7 +6,7 @@ services:
   php-worker:
     image: laradock/php-worker:local.${PHP_WORKER_TAG}
     build:
-      context: ${BUILD_ROOT}/php-worker
+      context: ${PHP_WORKER_BUILD_PATH}
     volumes_from:
       - applications
     depends_on:

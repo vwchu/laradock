@@ -5,7 +5,7 @@ services:
   ### Varnish Proxy 1
   proxy:
     image: laradock/varnish:local.${VARNISH_TAG}
-    build: ${BUILD_ROOT}/varnish
+    build: ${VARNISH_BUILD_PATH}
     expose:
       - ${VARNISH_PORT}
     environment:
@@ -24,7 +24,7 @@ services:
   ### Varnish Proxy 2
   proxy2:
     image: laradock/varnish:local.${VARNISH_TAG}
-    build: ${BUILD_ROOT}/varnish
+    build: ${VARNISH_BUILD_PATH}
     expose:
       - ${VARNISH_PORT}
     environment:

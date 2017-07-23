@@ -5,7 +5,7 @@ services:
   ### Aerospike Container
   aerospike:
     image: laradock/aerospike:local.${AEROSPIKE_TAG}
-    build: ${BUILD_ROOT}/aerospike
+    build: ${AEROSPIKE_BUILD_PATH}
     volumes_from:
       - workspace
     volumes:

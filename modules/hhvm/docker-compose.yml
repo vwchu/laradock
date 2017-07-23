@@ -5,7 +5,7 @@ services:
   ### HHVM Container
   hhvm:
     image: laradock/hhvm:local.${HHVM_TAG}
-    build: ${BUILD_ROOT}/hhvm
+    build: ${HHVM_BUILD_PATH}
     volumes_from:
       - applications
     expose:
