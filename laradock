@@ -5,7 +5,7 @@
 
 readonly LARADOCK_CLI="$(basename "$BASH_SOURCE")"
 readonly CLI_PATH="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
-readonly MODULES_PATH="$CLI_PATH/modules"
+readonly MODULES_PATH="${MODULES_PATH:-$CLI_PATH/modules}"
 readonly SRC_PATH="$CLI_PATH/src"
 readonly CONFIG_PATH="$CLI_PATH/config"
 
@@ -39,7 +39,7 @@ source "$SRC_PATH/commands/build.sh"
 source "$SRC_PATH/commands/dockercompose.sh"
 source "$SRC_PATH/commands/help.sh"
 source "$SRC_PATH/commands/init.sh"
-source "$SRC_PATH/commands/linkcli.sh"
+source "$SRC_PATH/commands/install.sh"
 
 #-----------------------------------------------------------
 # Main

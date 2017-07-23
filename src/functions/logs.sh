@@ -42,6 +42,13 @@ log()
   fi
 }
 
+writelog()
+{
+  cat - | while read -r line; do
+    log $1 "$line"
+  done
+}
+
 error()
 {
   log error "$@"

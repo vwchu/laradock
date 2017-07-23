@@ -7,7 +7,7 @@
 #=    Automatic run `docker-compose build` on the listed of Docker images.
 #= OPTION( 'e' 'String|Path' './.laradock.example')
 #=    Env example file to be used as the template.
-#= OPTION( 'E' 'String|Path' './.laradock')
+#= OPTION( 'E' 'String|Path' './.laradock.env')
 #=    Env variables file with the variables specific to the project.
 #= OPTION( 'O' 'Path' './.env' )
 #=    Output Env file path to be generate.
@@ -25,7 +25,7 @@ on_build()
 {
   local -A variables=( )
   local envexample="${options[e]:-$PWD/.laradock.example}"
-  local envvars="${options[E]:-$PWD/.laradock}"
+  local envvars="${options[E]:-$PWD/.laradock.env}"
   local composefile="${options[D]-$PWD/docker-compose.yml}"
   local output="${options[O]}"
 

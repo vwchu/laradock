@@ -202,7 +202,7 @@ make_envvars()
 
   populate_variables()
   {
-    local app="${APPLICATION:-$PWD}"
+    local app="$(relative_filepath "${LOCAL_MODULES_PATH:-$MODULES_PATH}" "${APPLICATION:-$PWD}")"
     local name="${project_name:-$(basename "$app")}"
     local separator="${COMPOSE_PATH_SEPARATOR:-;}"
 

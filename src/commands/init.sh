@@ -9,11 +9,19 @@
 #=    Modules to include within the output.
 #= OPTION( 'e' 'Path' './.laradock.example' )
 #=    File path to sample Env example file to be generate.
-#= OPTION( 'E' 'Path' './.laradock' )
+#= OPTION( 'E' 'Path' './.laradock.env' )
 #=    File path to sample project-specific variables file to be generate.
 #= OPTION( 'O' 'Path' './.env' )
 #=    Output Env file path to generate when the
 #=    variables file is evaluated.
+#= OPTION( 'L' )
+#=    Install modules locally within the project.
+#= OPTION( 'l' 'Path' './.laradock' )
+#=    Path to local copy of modules, if '-L' provided.
+#= OPTION( 'C' 'Boolean' 'true' )
+#=    Create a linked Laradock CLI.
+#= OPTION( 'c' 'Path' './laradock' )
+#=    Path to linked Laradock CLI if '-C' provided.
 #= OPTION( 'y' )
 #=    Automatic yes to prompts. Assume "yes" as answer to
 #=    all prompts and run non-interactively.
@@ -21,7 +29,8 @@
 on_init()
 {
   local envexample="${options[e]:-$PWD/.laradock.example}"
-  local envvars="${options[E]:-$PWD/.laradock}"
+  local envvars="${options[E]:-$PWD/.laradock.env}"
+  local modules_path="${options[l]:-$PWD/.laradock}"
   local output="${options[O]}"
   local project_name="${1:-$(basename "$PWD")}"
 
@@ -30,4 +39,12 @@ on_init()
 
   write_to_file "$envexample" make_envexample "${@:2}"
   write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
+
+  if [[ "${options[L]}" == true ]]; then
+    on_install "$modules_path" "${@:2}"
+    if [[ "${options[C]:-true}" == true ]]; then
+      LOCAL_MODULES_PATH="$modules_path" NOTTY=true \
+      write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
+    fi
+  fi
 }
