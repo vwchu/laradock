@@ -12,5 +12,5 @@
     "php",
     "php-container"
   ],
-  "bin": "scripts/laradock.sh"
+  "bin": "laradock"
 }
