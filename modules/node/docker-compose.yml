@@ -16,7 +16,7 @@ services:
     restart: "always"
     user: node
     working_dir: /home/node/app
-    entrypoint: /home/node/bin/entrypoint.sh
+    entrypoint: bash /home/node/bin/entrypoint.sh
     command: "${NODE_START_COMMAND:-npm start}"
     environment:
       - "NODE_ENV=${NODE_ENV:-production}"

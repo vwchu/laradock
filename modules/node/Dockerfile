@@ -73,9 +73,11 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
 
 USER root
 
+ARG NPM_GLOBALS
 ENV NPM_GLOBALS ${NPM_GLOBALS}
 
 RUN if [ -n "${NPM_GLOBALS}" ]; then \
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && \
     npm install -g ${NPM_GLOBALS} \
 ;fi
 
