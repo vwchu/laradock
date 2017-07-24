@@ -1,9 +1,9 @@
 build,commands/build.sh#on_build,:e:E:O:ydMD:,--env-example:-e --envvars:-E --output:-O --env:-O --yes:-y --skip-dockerbuild:-d --make-dockercompose:-M --dockercompose:-D
-dockercompose,commands/dockercompose.sh#on_dockercompose,:E:,--env:-E
-down,commands/dockercompose.sh#on_down,:E:,--env:-E
+dockercompose,commands/dockercompose.sh#on_dockercompose,:E:y,--env:-E --yes:-y
+down,commands/dockercompose.sh#on_down,:E:y,--env:-E --yes:-y
 help,commands/help.sh#on_help
 init,commands/init.sh#on_init,:e:E:O:Ll:Cc:y,--env-example:-e --envvars:-E --output:-O --env:-O --local:-L --local-path:-l --linkcli:-C --linkcli-path:-c --yes:-y
 install,commands/install.sh#on_install,:Cc:y,--linkcli:-C --linkcli-path:-c --yes:-y
 linkcli,commands/install.sh#on_linkcli,:y,--yes:-y
-tty,commands/dockercompose.sh#on_tty,:E:,--env:-E
-up,commands/dockercompose.sh#on_up,:E:,--env:-E
+tty,commands/dockercompose.sh#on_tty,:E:y,--env:-E --yes:-y
+up,commands/dockercompose.sh#on_up,:E:y,--env:-E --yes:-y

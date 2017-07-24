@@ -8,6 +8,9 @@
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )
 #=    Environment variable file to extract module list.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
 #
 on_dockercompose()
 {
@@ -17,10 +20,36 @@ on_dockercompose()
   [[ -e "$environ" ]]; assert "Cannot find: $environ"
 
   evaluate < <(cat "$environ" | to_load_script variables) 
-  
+
+  NOTTY="${options[y]}"
   MODULES="${variables[MODULES]}"
   LOCAL_MODULES_PATH="${variables[LOCAL_MODULES_PATH]}"
 
+  local -a function_args=($(cat "$environ" | get_env_metadata - ARGUMENTS))
+  local checksum="$(cat "$environ" | get_env_metadata - SHA1)"
+  local new_environ="$(make_env "${function_args[@]}")"
+  local new_checksum="$(echo "$new_environ" | get_env_metadata - SHA1)"
+
+  update_env()
+  {
+    log info "Checksums(original: $checksum, new: $new_checksum)"
+    
+    if [[ "$checksum" != "$new_checksum" ]]; then
+      if [[ ! $NOTTY ]]; then
+        read -p "$(echo_coloured cyan "|> '.env' has changed, update it? (yes/no): ")" response
+        response="$(echo "$response" | tr '[[:upper:]]' '[[:lower:]]')"
+        if [[ "$response" != 'yes' && "$response" != 'y' ]]; then
+          log info "skipping update of '.env'"
+          return 1
+        fi
+      fi
+      NOTTY=true write_to_file "$environ" echo "$new_environ"
+      log ok "|> May require rebuild to apply all changes: 'laradock build'."
+    fi
+    return 0
+  }
+
+  update_env
   dockercompose "$@"
 }
 
@@ -32,6 +61,9 @@ on_dockercompose()
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )
 #=    Environment variable file to extract module list.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
 #
 on_up()
 {
@@ -47,6 +79,9 @@ on_up()
 #=    Arguments and options to forward to the `docker-compose` command.
 #= OPTION( 'E' 'Path' './.env' )
 #=    Environment variable file to extract module list.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
 #
 on_down()
 {
@@ -64,6 +99,9 @@ on_down()
 #=    Arguments before `--` are docker-compose options, after `--` are bash arguments.
 #= OPTION( 'E' 'Path' './.env' )
 #=    Environment variable file to extract module list.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
 #
 on_tty()
 {
