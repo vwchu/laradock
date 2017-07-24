@@ -42,9 +42,7 @@ on_init()
 
   if [[ "${options[L]}" == true ]]; then
     on_install "$modules_path" "${@:2}"
-    if [[ "${options[C]:-false}" == true ]]; then
-      LOCAL_MODULES_PATH="$modules_path" NOTTY=true \
-      write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
-    fi
+    LOCAL_MODULES_PATH="$modules_path" NOTTY=true \
+    write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
   fi
 }

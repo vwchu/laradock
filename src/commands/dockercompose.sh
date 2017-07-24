@@ -19,6 +19,7 @@ on_dockercompose()
   evaluate < <(cat "$environ" | to_load_script variables) 
   
   MODULES="${variables[MODULES]}"
+  LOCAL_MODULES_PATH="${variables[LOCAL_MODULES_PATH]}"
 
   dockercompose "$@"
 }
