@@ -90,6 +90,23 @@ on_down()
 
 #
 #= DESCRIPTION
+#=    View output from containers. Execute `docker-compose logs` with the given arguments.
+#= OPTIONBREAK( 1 )
+#= ARGUMENT( 'rest' 'arguments' 'String' )
+#=    Arguments and options to forward to the `docker-compose` command.
+#= OPTION( 'E' 'Path' './.env' )
+#=    Environment variable file to extract module list.
+#= OPTION( 'y' )
+#=    Automatic yes to prompts. Assume "yes" as answer to
+#=    all prompts and run non-interactively.
+#
+on_logs()
+{
+  on_dockercompose logs "$@"
+}
+
+#
+#= DESCRIPTION
 #=    Execute `docker-compose exec -it <container> bash` with the given arguments.
 #= ARGUMENT( '1' 'container' 'String' )
 #=    Docker container to attach a terminal to.
