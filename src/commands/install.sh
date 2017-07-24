@@ -7,7 +7,7 @@
 #=    Destination to copy the modules and files to.
 #= ARGUMENT( 'rest' 'modules' 'String' )
 #=    Modules to include within the output.
-#= OPTION( 'C' 'Boolean' 'true' )
+#= OPTION( 'C' 'Boolean' 'false' )
 #=    Create a linked Laradock CLI.
 #= OPTION( 'c' 'Path' './laradock' )
 #=    Path to linked Laradock CLI if '-C' provided.
@@ -36,7 +36,7 @@ on_install()
     copy_directory "$root/${module_paths[$module]}" "$install_path/$module"
   done
 
-  if [[ "${options[C]:-true}" == true ]]; then
+  if [[ "${options[C]:-false}" == true ]]; then
     on_linkcli "${options[c]:-$PWD/laradock}" "$install_path"
   fi
 }

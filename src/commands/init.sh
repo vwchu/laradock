@@ -18,7 +18,7 @@
 #=    Install modules locally within the project.
 #= OPTION( 'l' 'Path' './.laradock' )
 #=    Path to local copy of modules, if '-L' provided.
-#= OPTION( 'C' 'Boolean' 'true' )
+#= OPTION( 'C' 'Boolean' 'false' )
 #=    Create a linked Laradock CLI.
 #= OPTION( 'c' 'Path' './laradock' )
 #=    Path to linked Laradock CLI if '-C' provided.
@@ -42,7 +42,7 @@ on_init()
 
   if [[ "${options[L]}" == true ]]; then
     on_install "$modules_path" "${@:2}"
-    if [[ "${options[C]:-true}" == true ]]; then
+    if [[ "${options[C]:-false}" == true ]]; then
       LOCAL_MODULES_PATH="$modules_path" NOTTY=true \
       write_to_file "$envvars" make_envvars "$project_name" "${@:2}"
     fi

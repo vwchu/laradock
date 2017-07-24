@@ -36,6 +36,7 @@ on_build()
 
   NOTTY="${options[y]}"
   MODULES="${variables[MODULES]}"
+  LOCAL_MODULES_PATH="${variables[LOCAL_MODULES_PATH]}"
   ENV_FILE="${variables[ENV_FILE]}"
 
   output="${output:-$ENV_FILE}"

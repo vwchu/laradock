@@ -209,6 +209,7 @@ make_envvars()
     variables["APPLICATION"]="$app"
     variables["COMPOSE_PROJECT_NAME"]="$name"
     variables["MODULES"]="${included[@]:-${modules[@]}}"
+    variables["LOCAL_MODULES_PATH"]="$LOCAL_MODULES_PATH"
     variables["COMPOSE_PATH_SEPARATOR"]="$separator"
     variables["COMPOSE_FILE"]="$(list_dockercompose_files_with_separator "$separator" "${included[@]}")"
   }
@@ -216,7 +217,7 @@ make_envvars()
   export_to_environment()
   {
     evaluate < <(for var in "${!variables[@]}"; do
-      echo "$var=\"\${variables[$var]}\""
+      echo "export $var=\"\${variables[$var]}\""
     done)
   }
 
