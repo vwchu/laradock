@@ -8,9 +8,9 @@ services:
     build:
       context: ${ADM_BUILD_PATH}
       args:
-        - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
+        - INSTALL_MSSQL=${ADM_INSTALL_MSSQL:-false}
     ports:
-      - "${ADM_PORT}:8080"
+      - "${ADM_PORT:-8080}:8080"
     depends_on:
       - php-fpm
     networks:

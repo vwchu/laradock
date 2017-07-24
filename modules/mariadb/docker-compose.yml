@@ -10,7 +10,7 @@ services:
       - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
       - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
-      - "${MARIADB_PORT}:3306"
+      - "${MARIADB_PORT:-3306}:3306"
     environment:
       - MYSQL_DATABASE=${MARIADB_DATABASE}
       - MYSQL_USER=${MARIADB_USER}

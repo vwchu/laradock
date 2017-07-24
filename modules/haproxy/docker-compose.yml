@@ -7,7 +7,7 @@ services:
     image: laradock/haproxy:local.${HAPROXY_TAG}
     build: ${HAPROXY_BUILD_PATH}
     ports:
-      - "${HAPROXY_HOST_HTTP_PORT}:8085"
+      - "${HAPROXY_HOST_HTTP_PORT:-8085}:8085"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     links:

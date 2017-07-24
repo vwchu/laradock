@@ -16,7 +16,7 @@ services:
       - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
       - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
-      - "${PERCONA_PORT}:3306"
+      - "${PERCONA_PORT:-3306}:3306"
     networks:
       - backend
 

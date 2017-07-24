@@ -7,8 +7,8 @@ services:
     image: laradock/mailhog:local.${MAILHOG_TAG}
     build: ${MAILHOG_BUILD_PATH}
     ports:
-      - "${MAILHOG_SMTP_HOST_PORT}:1025"
-      - "${MAILHOG_HTTP_HOST_PORT}:8025"
+      - "${MAILHOG_SMTP_HOST_PORT:-1025}:1025"
+      - "${MAILHOG_HTTP_HOST_PORT:-8025}:8025"
     networks:
       - frontend
       - backend

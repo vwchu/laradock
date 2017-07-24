@@ -7,8 +7,8 @@ services:
     image: laradock/neo4j:local.${NEO4J_TAG}
     build: ${NEO4J_BUILD_PATH}
     ports:
-      - "${NEO4J_HTTP_HOST_PORT}:7474"
-      - "${NEO4J_SHELL_HOST_PORT}:1337"
+      - "${NEO4J_HTTP_HOST_PORT:-7474}:7474"
+      - "${NEO4J_SHELL_HOST_PORT:-1337}:1337"
     environment:
       - NEO4J_AUTH=${NEO4J_USER}:${NEO4J_PASSWORD}
     volumes:

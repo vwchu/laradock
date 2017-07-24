@@ -7,14 +7,14 @@ services:
     image: laradock/varnish:local.${VARNISH_TAG}
     build: ${VARNISH_BUILD_PATH}
     expose:
-      - ${VARNISH_PORT}
+      - ${VARNISH_PORT:-8080}
     environment:
       - VARNISH_CONFIG=${VARNISH_CONFIG}
       - CACHE_SIZE=${VARNISH_PROXY1_CACHE_SIZE}
       - VARNISHD_PARAMS=${VARNISHD_PARAMS}
-      - VARNISH_PORT=${VARNISH_PORT}
+      - VARNISH_PORT=${VARNISH_PORT:-8080}
       - BACKEND_HOST=${VARNISH_PROXY1_BACKEND_HOST}
-      - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+      - BACKEND_PORT=${VARNISH_BACKEND_PORT:-8888}
       - VARNISH_SERVER=${VARNISH_PROXY1_SERVER}
     links:
       - workspace
@@ -26,14 +26,14 @@ services:
     image: laradock/varnish:local.${VARNISH_TAG}
     build: ${VARNISH_BUILD_PATH}
     expose:
-      - ${VARNISH_PORT}
+      - ${VARNISH_PORT:-8080}
     environment:
       - VARNISH_CONFIG=${VARNISH_CONFIG}
       - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
       - VARNISHD_PARAMS=${VARNISHD_PARAMS}
-      - VARNISH_PORT=${VARNISH_PORT}
+      - VARNISH_PORT=${VARNISH_PORT:-8080}
       - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
-      - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+      - BACKEND_PORT=${VARNISH_BACKEND_PORT:-8888}
       - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
     links:
       - workspace

@@ -14,7 +14,7 @@ services:
     volumes:
       - ${DATA_SAVE_PATH}/mssql:/var/opt/mssql
     ports:
-      - "${MSSQL_PORT}:1433"
+      - "${MSSQL_PORT:-1433}:1433"
     networks:
       - backend
 

@@ -7,7 +7,7 @@ services:
     image: laradock/selenium:local.${SELENIUM_TAG}
     build: ${SELENIUM_BUILD_PATH}
     ports:
-      - "${SELENIUM_PORT}:4444"
+      - "${SELENIUM_PORT:-4444}:4444"
     volumes:
       - /dev/shm:/dev/shm
     networks:

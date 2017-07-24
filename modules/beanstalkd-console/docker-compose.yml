@@ -7,7 +7,7 @@ services:
     image: laradock/beanstalkd-console:local.${BEANSTALKD_CONSOLE_TAG}
     build: ${BEANSTALKD_CONSOLE_BUILD_PATH}
     ports:
-      - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
+      - "${BEANSTALKD_CONSOLE_HOST_PORT:-2080}:2080"
     depends_on:
       - beanstalkd
     networks:

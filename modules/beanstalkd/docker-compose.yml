@@ -7,7 +7,7 @@ services:
     image: laradock/beanstalkd:local.${BEANSTALKD_TAG}
     build: ${BEANSTALKD_BUILD_PATH}
     ports:
-      - "${BEANSTALKD_HOST_PORT}:11300"
+      - "${BEANSTALKD_HOST_PORT:-11300}:11300"
     privileged: true
     depends_on:
       - php-fpm

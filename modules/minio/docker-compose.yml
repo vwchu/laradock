@@ -7,9 +7,9 @@ services:
     image: laradock/minio:local.${MINIO_TAG}
     build: ${MINIO_BUILD_PATH}
     volumes:
-      - ${MINIO_PATH}:/export
+      - ${MINIO_PATH:-minio}:/export
     ports:
-      - "${MINIO_PORT}:9000"
+      - "${MINIO_PORT:-9000}:9000"
     environment:
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}

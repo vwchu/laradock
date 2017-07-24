@@ -7,7 +7,7 @@ services:
     image: laradock/mongo:local.${MONGODB_TAG}
     build: ${MONGODB_BUILD_PATH}
     ports:
-      - "${MONGODB_PORT}:27017"
+      - "${MONGODB_PORT:-27017}:27017"
     volumes:
       - ${DATA_SAVE_PATH}/mongo:/data/db
     networks:
