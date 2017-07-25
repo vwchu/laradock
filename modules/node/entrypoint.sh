@@ -10,10 +10,10 @@
 
 #
 # Ensure that the NPM packages for the current project are 
-# installed. If the `node_modules` directory already exists, 
+# installed. If the `node_modules` directory already exists and is not empty, 
 # skips this step.
 #
-if [[ -e ./package.json && ! -d ./node_modules ]]; then
+if [[ -e ./package.json ]] && [[ ! -d ./node_modules || -z "$(find ./node_modules -mindepth 1 -print -quit)" ]]; then
   if [[ "$NPM_NO_BIN_LINKS" == true ]]; then
     npm install --no-bin-links
   else
