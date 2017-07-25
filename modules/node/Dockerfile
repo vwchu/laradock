@@ -99,15 +99,17 @@ RUN chown -R node:node /home/node/bin && \
 
 USER node
 RUN mkdir -p /home/node/app && \
-    touch /home/node/.bashrc && \
-    chown -R node:node /home/node/app
+    mkdir -p /home/node/app/node_modules && \
+    chown -R node:node /home/node/app && \
+    chown -R node:node /home/node/app/node_modules
 
 #####################################
 # Configure PATH:
 #####################################
 
 USER node
-RUN echo 'export PATH="$HOME/bin:$PATH"' >> /home/node/.bashrc && \
+RUN touch /home/node/.bashrc && \
+    echo 'export PATH="$HOME/bin:$PATH"' >> /home/node/.bashrc && \
     echo 'export PATH="$HOME/app/node_modules/.bin:$PATH"' >> /home/node/.bashrc && \
     echo 'export PATH="$PATH:."' >> /home/node/.bashrc
 
