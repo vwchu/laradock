@@ -28,6 +28,11 @@ services:
     volumes:
       - "${NODE_APP_PATH}:/home/node/app"
       - "${NODE_ENTRYPOINT_PATH}:/home/node/bin/entrypoint.sh"
+      - "${NODE_MODULES_PATH}:/home/node/app/node_modules"
     networks:
       - frontend
       - backend
+
+volumes:
+  node_modules:
+    driver: "local"
