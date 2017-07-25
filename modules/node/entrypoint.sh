@@ -6,8 +6,6 @@
 # startup prior to the main command is executed.
 #
 
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-
 #
 # Ensure that the NPM packages for the current project are 
 # installed. If the `node_modules` directory already exists and is not empty, 
