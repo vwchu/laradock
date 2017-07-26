@@ -46,7 +46,7 @@ on_install()
 #=    Creates a link to this CLI at the given target path.
 #= ARGUMENT( '1' 'target' 'Path' './laradock' )
 #=    Destination path to output the laradock executable script.
-#= ARGUMENT( '2' 'modules-path' 'Path' './.laradock' )
+#= ARGUMENT( '2' 'modules-path' 'Path' )
 #=    Path to local copy of modules, if provided, sets MODULES_PATH variable.
 #= OPTION( 'y' )
 #=    Automatic yes to prompts. Assume "yes" as answer to
@@ -56,7 +56,7 @@ on_linkcli()
 {
   local source="$CLI_PATH/$LARADOCK_CLI"
   local target="$(readlink -m -- "${1:-$PWD/laradock}")"
-  local modules_path="${2:-$PWD/.laradock}"
+  local modules_path="$2"
 
   NOTTY="${options[y]}"
 
