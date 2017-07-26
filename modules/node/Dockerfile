@@ -26,7 +26,6 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
 USER root
 
 ARG NPM_GLOBALS
-ENV NPM_GLOBALS ${NPM_GLOBALS}
 
 RUN if [ -n "${NPM_GLOBALS}" ]; then \
     npm install -g ${NPM_GLOBALS} \

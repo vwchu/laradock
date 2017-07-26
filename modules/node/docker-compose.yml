@@ -9,7 +9,7 @@ services:
       context: ${NODE_BUILD_PATH}
       args:
         - "NODE_VERSION=${NODE_VERSION:-latest}"
-        - "NPM_GLOBALS=${NODE_NPM_GLOBALS}"
+        - "NPM_GLOBALS=${NODE_NPM_GLOBALS:- }"
         - "INSTALL_YARN=${NODE_INSTALL_YARN:-false}"
         - "YARN_VERSION=${NODE_YARN_VERSION:-latest}"
     tty: true
