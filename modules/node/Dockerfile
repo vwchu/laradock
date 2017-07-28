@@ -1,4 +1,4 @@
-ARG NODE_VERSION=stable
+ARG NODE_VERSION=latest
 
 FROM node:${NODE_VERSION}
 
