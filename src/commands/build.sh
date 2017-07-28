@@ -32,7 +32,7 @@ on_build()
   [[ -e "$envexample" ]]; assert "Cannot find: $envexample"
   [[ -e "$envvars" ]]; assert "Cannot find: $envvars"
 
-  evaluate < <(cat "$envvars" | to_load_script variables) 
+  evaluate < <(cat "$envvars" | to_load_script variables)
 
   NOTTY="${options[y]}"
   MODULES="${variables[MODULES]}"
@@ -45,10 +45,10 @@ on_build()
   write_to_file "$output" make_env "$envexample" "$envvars" true true
 
   if [[ "${options[M]:-false}" == true ]]; then
-    write_to_file "$composefile" dockercompose config
+    write_to_file "$composefile" on_dockercompose config
   fi
 
   if [[ "${options[d]:-false}" == false ]]; then
-    dockercompose build ${@}
+    on_dockercompose build ${@}
   fi
 }
