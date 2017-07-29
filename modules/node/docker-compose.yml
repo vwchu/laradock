@@ -4,11 +4,11 @@ services:
 
   ### Node Container
   node:
-    image: laradock/node:local.${NODE_VERSION:-latest}.${NODE_TAG}
+    image: laradock/node:local.${NODE_TAG}
     build: 
       context: ${NODE_BUILD_PATH}
       args:
-        - "NODE_VERSION=${NODE_VERSION:-latest}"
+        - "NODE_VERSION=${NODE_VERSION}"
         - "NPM_GLOBALS=${NODE_NPM_GLOBALS:- }"
         - "INSTALL_YARN=${NODE_INSTALL_YARN:-false}"
         - "YARN_VERSION=${NODE_YARN_VERSION:-latest}"
