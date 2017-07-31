@@ -44,7 +44,7 @@ on_dockercompose()
         fi
       fi
       NOTTY=true write_to_file "$environ" echo "$new_environ"
-      log ok "|> May require rebuild to apply all changes: 'laradock build'."
+      log ok "May require rebuild to apply all changes: 'laradock build'."
     fi
     return 0
   }

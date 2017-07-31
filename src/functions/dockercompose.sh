@@ -25,7 +25,7 @@ list_dockercompose_files()
   {
     local filepath="$(resolve_dockercompose_filepath "$1")"
 
-    if [[ "$with_opthandle" == true ]]; then
+    if [[ -n "$filepath" && "$with_opthandle" == true ]]; then
       echo -n "-f $filepath"
     else
       echo -n "$filepath"
