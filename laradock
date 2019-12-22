@@ -3,8 +3,8 @@
 # Laradock Shell CLI
 #
 
-readonly LARADOCK_CLI="$(basename "$BASH_SOURCE")"
-readonly CLI_PATH="$(cd "$(dirname "$(readlink -f -- "$BASH_SOURCE")")"; pwd)"
+readonly LARADOCK_CLI="$(basename "${BASH_SOURCE[0]}")"
+readonly CLI_PATH="$(dirname "${BASH_SOURCE[0]}")"
 readonly MODULES_PATH="${MODULES_PATH:-$CLI_PATH/modules}"
 readonly SRC_PATH="$CLI_PATH/src"
 readonly CONFIG_PATH="$CLI_PATH/config"
